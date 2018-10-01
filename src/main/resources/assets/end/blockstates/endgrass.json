@@ -1,0 +1,21 @@
+{
+  "forge_marker": 1,
+   "defaults": {
+    "textures": {
+      "down": "end:block/end_stone",
+      "up": "end:block/endgrass_top",
+      "north": "end:block/endgrass_side",
+      "east": "end:block/endgrass_side",
+      "south": "end:block/endgrass_side",
+      "west": "end:block/endgrass_side",
+      "particle": "end:block/endgrass_side"
+    },
+    "model": "cube_all",
+    "uvlock": true,
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}]
+  }
+}

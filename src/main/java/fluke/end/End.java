@@ -35,6 +35,7 @@ public class End
 	@EventHandler
 	public static void init(FMLInitializationEvent event)
 	{
+		proxy.init();
 	}
 	
 	@EventHandler
@@ -47,5 +48,4 @@ public class End
 	{
 		event.registerServerCommand(new DebugCommand()); //TODO delete
 	}
-	
 }

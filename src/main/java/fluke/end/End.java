@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fluke.end.proxy.CommonProxy;
+import fluke.end.util.DebugCommand;
 import fluke.end.util.Reference;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -44,6 +45,7 @@ public class End
 	@EventHandler
 	public void startServer(FMLServerStartingEvent event) 
 	{
+		event.registerServerCommand(new DebugCommand()); //TODO delete
 	}
 	
 }

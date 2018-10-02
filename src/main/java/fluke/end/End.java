@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import fluke.end.proxy.CommonProxy;
 import fluke.end.util.DebugCommand;
 import fluke.end.util.Reference;
+import fluke.end.world.BiomeRegistrar;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -36,6 +37,7 @@ public class End
 	public static void init(FMLInitializationEvent event)
 	{
 		proxy.init();
+		BiomeRegistrar.registerBiomes();
 	}
 	
 	@EventHandler

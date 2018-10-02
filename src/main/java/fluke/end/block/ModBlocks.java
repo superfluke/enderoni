@@ -1,6 +1,5 @@
 package fluke.end.block;
 
-import fluke.end.util.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -11,6 +10,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
+import fluke.end.util.Reference;
 
 @GameRegistry.ObjectHolder(Reference.MOD_ID)
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
@@ -28,6 +28,9 @@ public class ModBlocks
 	@GameRegistry.ObjectHolder(BlockEndTallGrass.REG_NAME)
     public static BlockEndTallGrass endTallGrass;
 	
+	@GameRegistry.ObjectHolder(BlockEndGlowPlant.REG_NAME)
+    public static BlockEndGlowPlant endGlowPlant;
+	
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) 
 	{
@@ -36,6 +39,7 @@ public class ModBlocks
 		reggy.register(new BlockEndLeaves());
 		reggy.register(new BlockEndGrass());
 		reggy.register(new BlockEndTallGrass());
+		reggy.register(new BlockEndGlowPlant());
 	}
 	
 	@SubscribeEvent
@@ -46,6 +50,7 @@ public class ModBlocks
 		reggy.register(new ItemBlock(ModBlocks.endLeaves).setRegistryName(ModBlocks.endLeaves.getRegistryName()));
 		reggy.register(new ItemBlock(ModBlocks.endGrass).setRegistryName(ModBlocks.endGrass.getRegistryName()));
 		reggy.register(new ItemBlock(ModBlocks.endTallGrass).setRegistryName(ModBlocks.endTallGrass.getRegistryName()));
+		reggy.register(new ItemBlock(ModBlocks.endGlowPlant).setRegistryName(ModBlocks.endGlowPlant.getRegistryName()));
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -54,6 +59,7 @@ public class ModBlocks
 		endLeaves.initModel();
 		endGrass.initModel();
 		endTallGrass.initModel();
+		endGlowPlant.initModel();
     }
 }
 	

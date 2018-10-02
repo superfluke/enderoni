@@ -1,0 +1,16 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "cross": "end:block/endglow"
+        }
+    },
+    "variants": {
+        "normal": {
+            "model": "tinted_cross"
+        },
+        "inventory": {
+            "model": "end:endglow"
+        }
+    }
+}

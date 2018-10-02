@@ -13,7 +13,8 @@ public class WorldProviderEndBiomes extends WorldProviderEnd
 	@Override
 	public void init()
     {
-        this.biomeProvider = new BiomeProviderSingle(Biomes.SKY);
+		this.biomeProvider = new BiomeProviderSingle(BiomeRegistrar.END_JUNGLE);
+        //this.biomeProvider = new BiomeProviderSingle(Biomes.SKY);
         //this.biomeProvider = new EndBiomeProvider();
 //        NBTTagCompound nbttagcompound = this.world.getWorldInfo().getDimensionData(this.world.provider.getDimension());
 //        this.dragonFightManager = this.world instanceof WorldServer ? new DragonFightManager((WorldServer)this.world, nbttagcompound.getCompoundTag("DragonFight")) : null;

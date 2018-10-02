@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMatcher;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
@@ -17,14 +18,18 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import fluke.end.block.ModBlocks;
+import fluke.end.world.feature.WorldGenReplaceEndSurface;
+import fluke.end.world.feature.WorldGenSurfacePatch;
 
 public class EndJungle extends Biome
 {
 	public static BiomeProperties properties = new BiomeProperties("End Jungle");
 	public WorldGenerator endGrassGen;
+	public WorldGenerator endGrassRemoval;
 	private static final IBlockState AIR = Blocks.AIR.getDefaultState();
 	private static final IBlockState END_STONE = Blocks.END_STONE.getDefaultState();
 	private static final IBlockState END_GRASS = ModBlocks.endGrass.getDefaultState();
+	private static final int GRASS_PER_CHUNK = 3;
 	
 	static {
 		properties.setTemperature(Biomes.SKY.getDefaultTemperature());
@@ -43,7 +48,8 @@ public class EndJungle extends Biome
         this.topBlock = Blocks.DIRT.getDefaultState();
         this.fillerBlock = Blocks.DIRT.getDefaultState();
         this.decorator = new BiomeEndDecorator();
-        this.endGrassGen = new WorldGenMinable(ModBlocks.endGrass.getDefaultState(), 20, BlockMatcher.forBlock(Blocks.END_STONE));
+        this.endGrassGen = new WorldGenReplaceEndSurface(END_GRASS, END_STONE, true);
+        this.endGrassRemoval = new WorldGenSurfacePatch(END_STONE, END_GRASS, 1);
     }
     
     @Override
@@ -61,31 +67,8 @@ public class EndJungle extends Biome
     public void decorate(World worldIn, Random rand, BlockPos pos)
     {
     	super.decorate(worldIn, rand, pos);
-    	//endGrassGen.generate(worldIn, rand, pos.add(rand.nextInt(16), 55, rand.nextInt(16)));
-    	//replaceTopBlock(worldIn, pos);
+    	
+		endGrassGen.generate(worldIn, rand, pos.add(8, 0, 8));
+		endGrassRemoval.generate(worldIn, rand, pos.add(8, 0, 8));
     }
-    
-    public void replaceTopBlock(World world, BlockPos pos) //this is busted
-    {
-    	IBlockState blocky;
-    	//reset y value to 0 and offset x/z to not die due to cascading
-    	pos = pos.add(10, -pos.getY(), 10); 
-    	for(int x=0; x<6; x++)
-    	{
-    		for(int z=0; x<6; z++)
-    		{
-    			//lets assume that end stone only happens between y80 and y60.... right?
-    			for(int y=80; y>59; y--)
-    			{
-    				blocky = world.getBlockState(pos.add(x, y, z));
-    				if(blocky == END_STONE)
-    				{
-    					world.setBlockState(pos.add(x, y, z), END_GRASS);
-    					break;
-    				}
-    			}
-    		}
-    	}
-    }
-
 }

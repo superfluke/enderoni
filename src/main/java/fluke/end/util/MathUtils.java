@@ -2,6 +2,7 @@ package fluke.end.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 import net.minecraft.util.math.BlockPos;
 
@@ -169,5 +170,14 @@ public class MathUtils
 			zDist *= -1; //invert z value to match minecraft's -Z = north
 			BlockPos endPoint = startPoint.add(xDist, 0, zDist);
 			return endPoint;
+		}
+		
+		//returns an int between min and max, inclusive
+		public static int randIntBetween(int min, int max, Random rand)
+		{
+			if(max+1-min <= 0)
+				return 0;
+			else
+				return rand.nextInt(max+1-min)+min;
 		}
 }

@@ -4,18 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import fluke.end.block.ModBlocks;
 import fluke.end.util.MathUtils;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
+//TODO check that space to generate is empty 
 public class WorldGenEnderCanopy extends WorldGenAbstractTree  
 {
-	protected static final IBlockState LOG = Blocks.WOOL.getDefaultState();
-	protected static final IBlockState LEAF = Blocks.WOOL.getStateFromMeta(2);
+	protected static final IBlockState LOG = ModBlocks.endLog.getDefaultState();
+	protected static final IBlockState LEAF = ModBlocks.endLeaves.getDefaultState();
 
 	public WorldGenEnderCanopy(boolean notify) 
 	{
@@ -26,44 +29,76 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 	@Override
 	public boolean generate(World world, Random rand, BlockPos pos) 
 	{
-		int trunkHeight = 17 + rand.nextInt(7);
-		List<BlockPos> branchEndPos;
+		int trunkHeight = 16 + rand.nextInt(4);
+		List<BranchInfo> branchEndPos;
 		buildTrunk(world, rand, pos, trunkHeight);
 		branchEndPos = buildBranches(world, rand, pos, trunkHeight);
 		buildCanopy(world, rand, pos, branchEndPos);
 		return true;
 	}
 	
-	private void buildCanopy(World world, Random rand, BlockPos pos, List<BlockPos> branchEndPos) 
+	private void buildCanopy(World world, Random rand, BlockPos pos, List<BranchInfo> branchEnds) 
 	{
-		int canopyRadius = 8;
-		int maxDist = canopyRadius*canopyRadius;
-		double xAngleTranslation = Math.cos(Math.toRadians(45));
-		double zAngleTranslation = Math.sin(Math.toRadians(45));
-
-		for(BlockPos branchTip : branchEndPos)
+		for(BranchInfo branch : branchEnds)
 		{
-			for(int x=-canopyRadius; x<=canopyRadius; x++)
+			double xAngleTranslation = Math.cos(Math.toRadians(branch.rotationAngle));
+			double zAngleTranslation = Math.sin(Math.toRadians(branch.rotationAngle));
+			int xAnglizer = (int)Math.round(1*xAngleTranslation);
+			int zAnglizer = (int)Math.round(1*zAngleTranslation);
+			for(int y=0; y<=2; y++)
 			{
-				for(int z=-canopyRadius; z<=canopyRadius; z++)
+				int canopyRadius = 8;
+				if(y == 0)
+					canopyRadius -= 3;
+				else if(y == 2)
+					canopyRadius -= 2;
+				
+				int maxDist = canopyRadius*canopyRadius;
+				int lesserMaxDist = (canopyRadius-1)*(canopyRadius);
+				
+				for(int x=-canopyRadius; x<=canopyRadius; x++)
 				{
-					
-					double xDist = x*x;
-					double zDist = z*z; 
-					
-					//this actually makes an interesting shape
-//					double ratio = x/(z+0.001);
-//					ratio = ratio<1? 1: ratio;
-//					ratio = ratio>3? 3: ratio;
-//					zDist *= ratio;
-//					xDist *= ratio;
-
-					if(xDist+zDist < maxDist)
+					for(int z=-canopyRadius; z<=canopyRadius; z++)
 					{
-						int rotX = x;//(int)Math.round(x*xAngleTranslation);
-						int rotZ = z;//(int)Math.round(z*zAngleTranslation);
-						for(int y=0; y<=2; y++)
-							placeLeafAt(world, branchTip.add(rotX, y, rotZ));
+						
+						double xDist = x*x;
+						double zDist = z*z; 
+						
+						double ratio;
+						int num;
+						int denom;
+						if(Math.abs(x) > Math.abs(z))
+						{
+							ratio = (z*zAnglizer)/((x*xAnglizer)+0.001);
+						}
+						else
+						{
+							ratio = (x*xAnglizer)/((z*zAnglizer)+0.001);
+						}
+						
+						ratio = 1-(ratio+1.0)/2.0;
+						double squishFactor = MathHelper.clampedLerp(1.0, 1.55, ratio);
+						xDist *= squishFactor;
+						zDist *= squishFactor;
+						
+						//this actually makes an interesting shape
+	//					double ratio = x/(z+0.001);
+	//					ratio = ratio<1? 1: ratio;
+	//					ratio = ratio>3? 3: ratio;
+	//					zDist *= ratio;
+	//					xDist *= ratio;
+						
+						//roughs up the edges of the canopy a bit
+						int distortedMaxDistance;
+						if(rand.nextBoolean())
+							distortedMaxDistance = lesserMaxDist;
+						else
+							distortedMaxDistance = maxDist;
+						
+						if(xDist+zDist < distortedMaxDistance)
+						{
+							placeLeafAt(world, branch.endPoint.add(x, y, z));
+						}
 					}
 				}
 			}
@@ -82,10 +117,12 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 			{
 				int colHeight;
 				
+				//core will always be a min thickness of 3x3
 				if(Math.abs(x)<=1 && Math.abs(z)<=1)
 				{
 					colHeight = height;
 				}
+				//sort of jagged manhattan distance to create trunk taper
 				else if(Math.abs(x)<=Math.abs(z))
 				{
 					colHeight = 18 - Math.abs(x) - Math.abs(z)*3 - rand.nextInt(2);
@@ -103,19 +140,35 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 		}
 	}
 
-	private List<BlockPos> buildBranches(World world, Random rand, BlockPos center, int trunkHeight)
+	private List<BranchInfo> buildBranches(World world, Random rand, BlockPos center, int trunkHeight)
 	{
-		List<BlockPos> branchEndPos = new ArrayList<BlockPos>();
+		List<BranchInfo> branchEndPos = new ArrayList<BranchInfo>();
 		double xAngleTranslation;
 		double zAngleTranslation;
 		center = center.add(0, trunkHeight-2, 0);
-		branchEndPos.add(center.add(0, 12, 0)); // TODO del this
-		for(int n=0; n<4; n++)
+		for(int n=0; n<6; n++)
 		{
-			int branchLength = 16 + rand.nextInt(8);
-			int branchHeight = 8 + rand.nextInt(7);
-			xAngleTranslation = Math.cos(Math.toRadians(45+90*n));
-			zAngleTranslation = Math.sin(Math.toRadians(45+90*n));
+			int branchLength;
+			int branchHeight;
+			int branchAngle;
+			
+			//first 4 banches further out and in the four diagonal directions
+			if(n < 4)
+			{
+				branchLength = 14 + rand.nextInt(10);
+				branchHeight = 8 + rand.nextInt(7);
+				branchAngle = MathUtils.randIntBetween((45+90*n)-10, (45+90*n)+10, rand);
+			}
+			//next 2 branches closer and higher with more freedom of angle
+			else
+			{
+				branchLength = 9 + rand.nextInt(7);
+				branchHeight = 15 + rand.nextInt(6);
+				branchAngle = MathUtils.randIntBetween((90+180*(n-4))-35, (90+180*(n-4))+35, rand);
+			}
+			
+			xAngleTranslation = Math.cos(Math.toRadians(branchAngle));
+			zAngleTranslation = Math.sin(Math.toRadians(branchAngle));
 			int xOffset = (int)Math.round(1*xAngleTranslation);
 			int zOffset = (int)Math.round(1*zAngleTranslation);
 			
@@ -128,7 +181,7 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 			int rotEndPosX = (int)Math.round((branchLength+xOffset)* xAngleTranslation);
 			int rotEndPosZ = (int)Math.round((branchLength+zOffset)* zAngleTranslation);
 			BlockPos rotatedBranchEnd = branchStart.add(rotEndPosX, branchHeight, rotEndPosZ);
-			branchEndPos.add(rotatedBranchEnd);
+			branchEndPos.add(new BranchInfo(rotatedBranchEnd, branchAngle));
 			
 			BlockPos[] branchArray = MathUtils.getQuadBezierArray(branchStart, branchCurve, branchEnd);
 			for(BlockPos pos : branchArray)
@@ -139,7 +192,7 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 				int pxZoffset = pos.getZ() - branchStart.getZ();
 				int pxDistance = pxXoffset; 
 				
-				//get x, z positions for branches at 45 degrees
+				//get x, z positions for branches at specified angle
 				int angledX = (int)Math.round(pxDistance * xAngleTranslation);
 				int angledZ = (int)Math.round(pxDistance * zAngleTranslation);
 				
@@ -191,6 +244,18 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 		for (BlockPos pixel : MathUtils.getQuadBezierArray(start, curvePos, end)) 
 		{
 			this.setBlockAndNotifyAdequately(world, pixel, state);
+		}
+	}
+	
+	private class BranchInfo
+	{
+		BlockPos endPoint;
+		int rotationAngle;
+		
+		public BranchInfo(BlockPos endPoint, int rotationAngle)
+		{
+			this.endPoint = endPoint;
+			this.rotationAngle = rotationAngle;
 		}
 	}
 

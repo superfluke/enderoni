@@ -1,5 +1,7 @@
 package fluke.end.block;
 
+import java.util.Random;
+
 import javax.annotation.Nullable;
 
 import fluke.end.util.Reference;
@@ -12,6 +14,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -32,7 +35,8 @@ public class BlockEndLeaves extends BlockLeaves
 	
 	public BlockEndLeaves()
 	{
-        this.setDefaultState(this.blockState.getBaseState().withProperty(CHECK_DECAY, Boolean.valueOf(true)).withProperty(DECAYABLE, Boolean.valueOf(true)));
+		//TODO hey, hey, hey... check out that decay
+        this.setDefaultState(this.blockState.getBaseState().withProperty(CHECK_DECAY, Boolean.valueOf(false)).withProperty(DECAYABLE, Boolean.valueOf(true)));
         setUnlocalizedName(Reference.MOD_ID + ".endleaves"); 
 		setRegistryName(REG_NAME);
 	}
@@ -40,7 +44,7 @@ public class BlockEndLeaves extends BlockLeaves
 	protected int getSaplingDropChance(IBlockState state)
     {
         //return state.getValue(VARIANT) == BlockPlanks.EnumType.JUNGLE ? 40 : super.getSaplingDropChance(state);
-		return 0;
+		return 50;
     }
 	
 	protected ItemStack getSilkTouchDrop(IBlockState state)
@@ -115,5 +119,11 @@ public class BlockEndLeaves extends BlockLeaves
 	{
 		return super.shouldSideBeRendered(blockState, blockAccess, pos, side);
 	}
+	
+	@Override
+	public Item getItemDropped(IBlockState state, Random rand, int fortune)
+    {
+        return Item.getItemFromBlock(ModBlocks.endCanopySapling);
+    }
 
 }

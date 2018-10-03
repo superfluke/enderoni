@@ -159,4 +159,15 @@ public class MathUtils
 
 			return lineArray;
 		}
+		
+		//rotates a blockpos by x degrees keeping same y level
+		public static BlockPos getDirectionalPoint(BlockPos startPoint, int degreesToRotate, int distanceFromCenter)
+		{		
+			double stupidRadians = Math.toRadians(degreesToRotate);
+			int xDist = (int) Math.round(Math.cos(stupidRadians) * distanceFromCenter);
+			int zDist = (int) Math.round(Math.sin(stupidRadians) * distanceFromCenter);
+			zDist *= -1; //invert z value to match minecraft's -Z = north
+			BlockPos endPoint = startPoint.add(xDist, 0, zDist);
+			return endPoint;
+		}
 }

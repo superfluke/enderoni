@@ -38,16 +38,32 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 	{
 		int canopyRadius = 8;
 		int maxDist = canopyRadius*canopyRadius;
+		double xAngleTranslation = Math.cos(Math.toRadians(45));
+		double zAngleTranslation = Math.sin(Math.toRadians(45));
+
 		for(BlockPos branchTip : branchEndPos)
 		{
 			for(int x=-canopyRadius; x<=canopyRadius; x++)
 			{
 				for(int z=-canopyRadius; z<=canopyRadius; z++)
 				{
-					if((x*x)+(z*z) < maxDist)
+					
+					double xDist = x*x;
+					double zDist = z*z; 
+					
+					//this actually makes an interesting shape
+//					double ratio = x/(z+0.001);
+//					ratio = ratio<1? 1: ratio;
+//					ratio = ratio>3? 3: ratio;
+//					zDist *= ratio;
+//					xDist *= ratio;
+
+					if(xDist+zDist < maxDist)
 					{
+						int rotX = x;//(int)Math.round(x*xAngleTranslation);
+						int rotZ = z;//(int)Math.round(z*zAngleTranslation);
 						for(int y=0; y<=2; y++)
-							placeLeafAt(world, branchTip.add(x, y, z));
+							placeLeafAt(world, branchTip.add(rotX, y, rotZ));
 					}
 				}
 			}
@@ -90,17 +106,18 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 	private List<BlockPos> buildBranches(World world, Random rand, BlockPos center, int trunkHeight)
 	{
 		List<BlockPos> branchEndPos = new ArrayList<BlockPos>();
-		double xAngleTranslation = 0.7071; //Math.cos(Math.toRadians(45));
-		double zAngleTranslation = 0.7071; //Math.sin(Math.toRadians(45));
-		int[][] dirArray = {{1,1}, {-1,1}, {1,-1}, {-1,-1}};
+		double xAngleTranslation;
+		double zAngleTranslation;
 		center = center.add(0, trunkHeight-2, 0);
-
+		branchEndPos.add(center.add(0, 12, 0)); // TODO del this
 		for(int n=0; n<4; n++)
 		{
 			int branchLength = 16 + rand.nextInt(8);
 			int branchHeight = 8 + rand.nextInt(7);
-			int xOffset = dirArray[n][0];
-			int zOffset = dirArray[n][1];
+			xAngleTranslation = Math.cos(Math.toRadians(45+90*n));
+			zAngleTranslation = Math.sin(Math.toRadians(45+90*n));
+			int xOffset = (int)Math.round(1*xAngleTranslation);
+			int zOffset = (int)Math.round(1*zAngleTranslation);
 			
 			//current CurvedBresehnam only works in 2d, ignore z axis
 			BlockPos branchStart = center.add(xOffset, 0, zOffset);
@@ -108,8 +125,9 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 			BlockPos branchEnd = center.add(branchLength+xOffset, branchHeight, 0);
 						
 			//add the actual branch end position to a list so we can add leaves to it later
-			int rotEndPos = (int)((branchLength+xOffset)* xAngleTranslation + 0.5);
-			BlockPos rotatedBranchEnd = branchStart.add(rotEndPos*xOffset, branchHeight, rotEndPos*zOffset);
+			int rotEndPosX = (int)Math.round((branchLength+xOffset)* xAngleTranslation);
+			int rotEndPosZ = (int)Math.round((branchLength+zOffset)* zAngleTranslation);
+			BlockPos rotatedBranchEnd = branchStart.add(rotEndPosX, branchHeight, rotEndPosZ);
 			branchEndPos.add(rotatedBranchEnd);
 			
 			BlockPos[] branchArray = MathUtils.getQuadBezierArray(branchStart, branchCurve, branchEnd);
@@ -122,14 +140,14 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 				int pxDistance = pxXoffset; 
 				
 				//get x, z positions for branches at 45 degrees
-				int angledX = (int)(pxDistance * xAngleTranslation + 0.5);
-				int angledZ = (int)(pxDistance * zAngleTranslation + 0.5);
-
-				placeLogAt(world, branchStart.add(angledX*xOffset, pxYoffset, angledZ*zOffset));
-				placeLogAt(world, branchStart.add(angledX*xOffset+xOffset, pxYoffset, angledZ*zOffset));
-				placeLogAt(world, branchStart.add(angledX*xOffset, pxYoffset, angledZ*zOffset+zOffset));
+				int angledX = (int)Math.round(pxDistance * xAngleTranslation);
+				int angledZ = (int)Math.round(pxDistance * zAngleTranslation);
+				
+				placeLogAt(world, branchStart.add(angledX, pxYoffset, angledZ));
+				placeLogAt(world, branchStart.add(angledX+xOffset, pxYoffset, angledZ));
+				placeLogAt(world, branchStart.add(angledX, pxYoffset, angledZ+zOffset));
 				if(pxDistance <= 5)
-					placeLogAt(world, branchStart.add(angledX*xOffset-xOffset, pxYoffset, angledZ*zOffset-zOffset));
+					placeLogAt(world, branchStart.add(angledX-xOffset, pxYoffset, angledZ-zOffset));
 				
 //				if(pxDistance == branchLength - 3)// && rand.nextBoolean()) 
 //				{//not working

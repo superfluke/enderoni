@@ -35,7 +35,7 @@ public class BlockEndGlowPlant extends BlockBush implements net.minecraftforge.c
     {
     	super(Material.VINE, MapColor.PURPLE);
     	this.setSoundType(SoundType.PLANT);
-    	this.setLightLevel(0.5F);
+    	this.setLightLevel(0.75F);
     	setUnlocalizedName(Reference.MOD_ID + ".endglow");
         setRegistryName(REG_NAME);
     }

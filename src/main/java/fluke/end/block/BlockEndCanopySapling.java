@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -80,6 +81,12 @@ public class BlockEndCanopySapling extends BlockBush implements IGrowable
         WorldGenerator tree = new WorldGenEnderCanopy(true);
         tree.generate(worldIn, rand, pos);
     
+    }
+    
+    @Override
+    protected boolean canSustainBush(IBlockState state)
+    {
+        return state.getBlock() == ModBlocks.endGrass || state.getBlock() == Blocks.END_STONE;
     }
     
     /**

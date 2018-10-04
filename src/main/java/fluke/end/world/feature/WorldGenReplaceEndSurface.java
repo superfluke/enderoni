@@ -56,12 +56,26 @@ public class WorldGenReplaceEndSurface extends WorldGenerator
     //faster to put this here rather than its own WorldGenerator since we already know what the surface block location is
     private void genEndPlants(World world, BlockPos pos)
     {
-    	int plantRng = randy.nextInt(16);
+    	int plantRng = randy.nextInt(64);
     	
-    	if(plantRng <= 5)
+    	if(plantRng <= 13)
     		world.setBlockState(pos.up(), END_TALL_GRASS, 2);
-    	else if(plantRng <= 6)
+    	else if(plantRng == 14)
+    	{
     		world.setBlockState(pos.up(), END_GLOW_PLANT, 2);
+    		
+    		if(pos.getX() > 0 && randy.nextBoolean())
+    		{
+    			if(world.getBlockState(pos.add(-1, 0, 0)) == surfaceBlockState)
+    				world.setBlockState(pos.up(), END_GLOW_PLANT, 2);
+    		}
+    		
+    		if(pos.getZ() > 0 && randy.nextBoolean())
+    		{
+    			if(world.getBlockState(pos.add(0, 0, -1)) == surfaceBlockState)
+    				world.setBlockState(pos.up(), END_GLOW_PLANT, 2);
+    		}
+    	}
     }
 
 }

@@ -6,7 +6,8 @@ import java.util.Random;
 
 import fluke.end.block.ModBlocks;
 import fluke.end.util.MathUtils;
-
+import net.minecraft.block.BlockVine;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -19,6 +20,7 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 {
 	protected static final IBlockState LOG = ModBlocks.endLog.getDefaultState();
 	protected static final IBlockState LEAF = ModBlocks.endLeaves.getDefaultState();
+	private static final IBlockState END_GRASS = ModBlocks.endGrass.getDefaultState();
 
 	public WorldGenEnderCanopy(boolean notify) 
 	{
@@ -30,6 +32,9 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 	public boolean generate(World world, Random rand, BlockPos pos) 
 	{
 		int trunkHeight = 16 + rand.nextInt(4);
+		if(!isValidGenLocation(world, pos, trunkHeight))
+			return false;
+		
 		List<BranchInfo> branchEndPos;
 		buildTrunk(world, rand, pos, trunkHeight);
 		branchEndPos = buildBranches(world, rand, pos, trunkHeight);
@@ -37,8 +42,53 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 		return true;
 	}
 	
+	public boolean isValidGenLocation(World world, BlockPos pos, int trunkHeight)
+	{
+		if(pos.getY() < 3 || pos.getY() + trunkHeight + 22 > 255)
+			return false;
+		
+		for(BlockPos trunkBaseBlock : BlockPos.getAllInBoxMutable(pos.add(-5, 0, -5), pos.add(5, 2, 5)))
+		{
+			IBlockState state = world.getBlockState(trunkBaseBlock);
+			if(state != END_GRASS && !state.getBlock().isReplaceable(world, pos) && !isReplaceable(world, trunkBaseBlock, state))
+			{
+				System.out.println(state.getBlock().getLocalizedName());
+				return false;
+			}
+		}
+		
+		for(BlockPos trunkCoreBlock : BlockPos.getAllInBoxMutable(pos.add(-1, 3, -1), pos.add(1, trunkHeight-1, 3)))
+		{
+			if(!isReplaceable(world, trunkCoreBlock))
+				return false;
+		}
+		
+		for(BlockPos canopyBlock : BlockPos.getAllInBoxMutable(pos.add(-23, trunkHeight+7, -23), pos.add(23, trunkHeight+7, 23)))
+		{
+			if(!isReplaceable(world, canopyBlock))
+				return false;
+		}
+		
+		return true;
+		
+	}
+	
+	@Override
+	public boolean isReplaceable(World world, BlockPos pos)
+    {
+        IBlockState state = world.getBlockState(pos);
+        return isReplaceable(world, pos, state);
+    }
+	
+	private boolean isReplaceable(World world, BlockPos pos, IBlockState state)
+	{
+        return state.getBlock().isAir(state, world, pos) || state.getBlock().isLeaves(state, world, pos) || state.getBlock().isWood(world, pos) || canGrowInto(state.getBlock());
+	}
+	
 	private void buildCanopy(World world, Random rand, BlockPos pos, List<BranchInfo> branchEnds) 
 	{
+		List<BlockPos> possibleVineSpots = new ArrayList<BlockPos>();
+		
 		for(BranchInfo branch : branchEnds)
 		{
 			double xAngleTranslation = Math.cos(Math.toRadians(branch.rotationAngle));
@@ -55,6 +105,7 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 				
 				int maxDist = canopyRadius*canopyRadius;
 				int lesserMaxDist = (canopyRadius-1)*(canopyRadius);
+				//int greaterMaxDist = (canopyRadius+1)*(canopyRadius);
 				
 				for(int x=-canopyRadius; x<=canopyRadius; x++)
 				{
@@ -98,12 +149,60 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 						if(xDist+zDist < distortedMaxDistance)
 						{
 							placeLeafAt(world, branch.endPoint.add(x, y, z));
+							
+							if(y < 2 && xDist+zDist > lesserMaxDist && rand.nextInt(4) == 0)
+								possibleVineSpots.add(branch.endPoint.add(x, y, z));
 						}
 					}
 				}
 			}
 		}
 		
+		for(BlockPos vinePos : possibleVineSpots)
+		{
+			placeVine(world, rand, vinePos);
+		}
+		
+	}
+
+	private void placeVine(World world, Random rand, BlockPos pos) 
+	{
+        //int length = rand.nextInt(rand.nextInt(12)+5);
+        int length = rand.nextInt(17);
+        int vineChance = rand.nextInt(1);
+        
+        if (vineChance == 0) 
+        {
+        	if(world.isAirBlock(pos.west()))
+        		addHangingVine(world, pos.west(), BlockVine.EAST, length);
+        	if(world.isAirBlock(pos.east()))
+        		addHangingVine(world, pos.east(), BlockVine.WEST, length);
+        	if(world.isAirBlock(pos.north()))
+        		addHangingVine(world, pos.north(), BlockVine.SOUTH, length);
+        	if(world.isAirBlock(pos.south()))
+        		addHangingVine(world, pos.south(), BlockVine.NORTH, length);
+        	
+        	
+		}
+		
+	}
+	
+	private void addHangingVine(World world, BlockPos pos, PropertyBool prop, int length)
+    {
+    	this.setBlockAndNotifyAdequately(world, pos, ModBlocks.endVine.getDefaultState().withProperty(prop, Boolean.valueOf(true)));
+
+        for (BlockPos blockpos = pos.down(); world.isAirBlock(blockpos) && length > 0; length--)
+        {
+        	this.setBlockAndNotifyAdequately(world, blockpos, ModBlocks.endVine.getDefaultState().withProperty(prop, Boolean.valueOf(true)));
+            blockpos = blockpos.down();
+        }
+    }
+	
+	//probably delete this
+	private boolean isVineFriendly(World world, BlockPos pos)
+	{
+		IBlockState statey = world.getBlockState(pos);
+		return statey == LOG || statey == LEAF;
 	}
 
 	private void buildTrunk(World world, Random rand, BlockPos center, int height)
@@ -163,7 +262,7 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 			else
 			{
 				branchLength = 9 + rand.nextInt(7);
-				branchHeight = 15 + rand.nextInt(6);
+				branchHeight = 15 + rand.nextInt(3);
 				branchAngle = MathUtils.randIntBetween((90+180*(n-4))-35, (90+180*(n-4))+35, rand);
 			}
 			
@@ -232,7 +331,7 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
     {
         IBlockState state = worldIn.getBlockState(pos);
 
-        if (state.getBlock().isAir(state, worldIn, pos) || state.getBlock().isLeaves(state, worldIn, pos))
+        if (state.getBlock().isAir(state, worldIn, pos) || state.getBlock().isLeaves(state, worldIn, pos) || state == ModBlocks.endVine.getDefaultState())
         {
             this.setBlockAndNotifyAdequately(worldIn, pos, LEAF);
         }

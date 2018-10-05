@@ -22,7 +22,7 @@ import fluke.end.world.feature.WorldGenEnderCanopy;
 import fluke.end.world.feature.WorldGenReplaceEndSurface;
 import fluke.end.world.feature.WorldGenSurfacePatch;
 
-public class EndJungle extends Biome
+public class BiomeEndJungle extends Biome
 {
 	public static BiomeProperties properties = new BiomeProperties("End Jungle");
 	public WorldGenerator endGrassGen;
@@ -31,7 +31,6 @@ public class EndJungle extends Biome
 	private static final IBlockState AIR = Blocks.AIR.getDefaultState();
 	private static final IBlockState END_STONE = Blocks.END_STONE.getDefaultState();
 	private static final IBlockState END_GRASS = ModBlocks.endGrass.getDefaultState();
-	private static final int GRASS_PER_CHUNK = 3;
 	
 	static {
 		properties.setTemperature(Biomes.SKY.getDefaultTemperature());
@@ -39,7 +38,7 @@ public class EndJungle extends Biome
 		properties.setRainDisabled();
 	}
 	
-    public EndJungle()
+    public BiomeEndJungle()
     {
         super(properties);
         this.spawnableMonsterList.clear();
@@ -95,7 +94,6 @@ public class EndJungle extends Biome
     				return currentY;
     		currentY--;
     	}
-    	
     	return 0;
     }
 }

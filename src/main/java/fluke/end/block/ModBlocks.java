@@ -37,6 +37,12 @@ public class ModBlocks
 	@GameRegistry.ObjectHolder(BlockEndVine.REG_NAME)
     public static BlockEndVine endVine;
 	
+	@GameRegistry.ObjectHolder(BlockEnderObsidian.REG_NAME)
+    public static BlockEnderObsidian endObsidian;
+	
+	@GameRegistry.ObjectHolder(BlockEndMagma.REG_NAME)
+    public static BlockEndMagma endMagma;
+	
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) 
 	{
@@ -48,6 +54,8 @@ public class ModBlocks
 		reggy.register(new BlockEndGlowPlant());
 		reggy.register(new BlockEndCanopySapling());
 		reggy.register(new BlockEndVine());
+		reggy.register(new BlockEnderObsidian());
+		reggy.register(new BlockEndMagma());
 	}
 	
 	@SubscribeEvent
@@ -61,6 +69,8 @@ public class ModBlocks
 		reggy.register(new ItemBlock(ModBlocks.endGlowPlant).setRegistryName(ModBlocks.endGlowPlant.getRegistryName()));
 		reggy.register(new ItemBlock(ModBlocks.endCanopySapling).setRegistryName(ModBlocks.endCanopySapling.getRegistryName()));
 		reggy.register(new ItemBlock(ModBlocks.endVine).setRegistryName(ModBlocks.endVine.getRegistryName()));
+		reggy.register(new ItemBlock(ModBlocks.endObsidian).setRegistryName(ModBlocks.endObsidian.getRegistryName()));
+		reggy.register(new ItemBlock(ModBlocks.endMagma).setRegistryName(ModBlocks.endMagma.getRegistryName()));
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -72,6 +82,8 @@ public class ModBlocks
 		endGlowPlant.initModel();
 		endCanopySapling.initModel();
 		endVine.initModel();
+		endObsidian.initModel();
+		endMagma.initModel();
     }
 }
 	

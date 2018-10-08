@@ -3,6 +3,7 @@ package fluke.end;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import fluke.end.block.fluid.ModFluids;
 import fluke.end.proxy.CommonProxy;
 import fluke.end.util.DebugCommand;
 import fluke.end.util.Reference;
@@ -32,6 +33,7 @@ public class End
 	@EventHandler
 	public static void preInit(FMLInitializationEvent event)
 	{
+		//ModFluids.registerFluids();
 	}
 	
 	@EventHandler

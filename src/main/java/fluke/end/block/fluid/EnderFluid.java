@@ -1,3 +1,5 @@
+//Adapted from: http://jabelarminecraft.blogspot.com/p/minecraft-modding-custom-fluids.html?m=1
+
 package fluke.end.block.fluid;
 
 import net.minecraft.block.material.Material;
@@ -14,6 +16,7 @@ public class EnderFluid extends Fluid
     protected static SoundEvent emptySound = SoundEvents.ITEM_BUCKET_EMPTY;
     protected static SoundEvent fillSound = SoundEvents.ITEM_BUCKET_FILL;
     protected static Material material = Material.WATER;
+    protected boolean bucketEnabled = false;
  
     public EnderFluid(String fluidName, ResourceLocation still, ResourceLocation flowing) 
     {
@@ -98,5 +101,27 @@ public class EnderFluid extends Fluid
         if (block == null)
             return false;
         return block.getDefaultState().getMaterial() == getMaterial();
+    }
+    
+    /**
+     * Sets the has bucket.
+     *
+     * @param parEnableBucket the par enable bucket
+     * @return the mod fluid
+     */
+    public EnderFluid setHasBucket(boolean parEnableBucket)
+    {
+        bucketEnabled = parEnableBucket;
+        return this;
+    }
+    
+    /**
+     * Checks if is bucket enabled.
+     *
+     * @return true, if is bucket enabled
+     */
+    public boolean isBucketEnabled()
+    {
+        return bucketEnabled;
     }
 }

@@ -1,5 +1,4 @@
 //Adapted from: http://jabelarminecraft.blogspot.com/p/minecraft-modding-custom-fluids.html?m=1
-
 package fluke.end.block.fluid;
 
 import java.awt.Color;
@@ -12,12 +11,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -25,7 +27,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockEnderFluid extends BlockFluidClassic
+public class ModBlockFluidClassic extends BlockFluidClassic
 {
     /**
      * Instantiates a new mod block fluid classic.
@@ -35,7 +37,7 @@ public class BlockEnderFluid extends BlockFluidClassic
      * @param parMaterial
      *            the par material
      */
-    public BlockEnderFluid(Fluid parFluid, Material parMaterial)
+    public ModBlockFluidClassic(Fluid parFluid, Material parMaterial)
     {
         super(parFluid, parMaterial);
     }
@@ -225,5 +227,10 @@ public class BlockEnderFluid extends BlockFluidClassic
     {
         return new Vec3d(Color.GREEN.getRed(), Color.GREEN.getGreen(), Color.GREEN.getBlue());
     }
+    
+    public void initModel() 
+	{
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
+	}
 
 }

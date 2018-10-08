@@ -1,15 +1,20 @@
 package fluke.end.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.MapColor;
+import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
+import fluke.end.block.fluid.ModBlockFluidClassic;
+import fluke.end.block.fluid.ModFluids;
 import fluke.end.util.Reference;
 
 @GameRegistry.ObjectHolder(Reference.MOD_ID)
@@ -43,9 +48,16 @@ public class ModBlocks
 	@GameRegistry.ObjectHolder(BlockEndMagma.REG_NAME)
     public static BlockEndMagma endMagma;
 	
+	@GameRegistry.ObjectHolder(BlockEndCactus.REG_NAME)
+    public static BlockEndCactus endCactus;
+	
+	@GameRegistry.ObjectHolder("endacid")
+    public static BlockFluidClassic endAcid;
+	
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) 
 	{
+		ModFluids.registerFluids();
 		IForgeRegistry<Block> reggy = event.getRegistry();
 		reggy.register(new BlockEndLog());
 		reggy.register(new BlockEndLeaves());
@@ -56,6 +68,8 @@ public class ModBlocks
 		reggy.register(new BlockEndVine());
 		reggy.register(new BlockEnderObsidian());
 		reggy.register(new BlockEndMagma());
+		reggy.register(new BlockEndCactus());
+		reggy.register(new ModBlockFluidClassic(ModFluids.ACID, new MaterialLiquid(MapColor.LIME)).setRegistryName("endacid"));
 	}
 	
 	@SubscribeEvent
@@ -71,6 +85,8 @@ public class ModBlocks
 		reggy.register(new ItemBlock(ModBlocks.endVine).setRegistryName(ModBlocks.endVine.getRegistryName()));
 		reggy.register(new ItemBlock(ModBlocks.endObsidian).setRegistryName(ModBlocks.endObsidian.getRegistryName()));
 		reggy.register(new ItemBlock(ModBlocks.endMagma).setRegistryName(ModBlocks.endMagma.getRegistryName()));
+		reggy.register(new ItemBlock(ModBlocks.endCactus).setRegistryName(ModBlocks.endCactus.getRegistryName()));
+		reggy.register(new ItemBlock(ModBlocks.endAcid).setRegistryName("endacid"));
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -84,6 +100,8 @@ public class ModBlocks
 		endVine.initModel();
 		endObsidian.initModel();
 		endMagma.initModel();
+		endCactus.initModel();
+		((ModBlockFluidClassic) endAcid).initModel();
     }
 }
 	

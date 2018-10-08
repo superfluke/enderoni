@@ -37,78 +37,7 @@ public abstract class EndGenLayer
     /** base seed to the LCG prng provided via the constructor */
     protected long baseSeed;
 
-    public static GenLayer[] initializeAllBiomeGenerators2(long seed, WorldType worldtype, ChunkGeneratorSettings genSettings)
-    {
-        GenLayer genlayer = new GenLayerIsland(1L);
-        genlayer = new GenLayerFuzzyZoom(2000L, genlayer);
-        GenLayer genlayeraddisland = new GenLayerAddIsland(1L, genlayer);
-        GenLayer genlayerzoom = new GenLayerZoom(2001L, genlayeraddisland);
-        GenLayer genlayeraddisland1 = new GenLayerAddIsland(2L, genlayerzoom);
-        genlayeraddisland1 = new GenLayerAddIsland(50L, genlayeraddisland1);
-        genlayeraddisland1 = new GenLayerAddIsland(70L, genlayeraddisland1);
-        GenLayer genlayerremovetoomuchocean = new GenLayerRemoveTooMuchOcean(2L, genlayeraddisland1);
-        GenLayer genlayeraddsnow = new GenLayerAddSnow(2L, genlayerremovetoomuchocean);
-        GenLayer genlayeraddisland2 = new GenLayerAddIsland(3L, genlayeraddsnow);
-//        GenLayer genlayeredge = new GenLayerEdge(2L, genlayeraddisland2, GenLayerEdge.Mode.COOL_WARM);
-        
-//        genlayeredge = new GenLayerEdge(2L, genlayeredge, GenLayerEdge.Mode.HEAT_ICE);
-//        genlayeredge = new GenLayerEdge(3L, genlayeredge, GenLayerEdge.Mode.SPECIAL);
-        
-        GenLayer genlayerzoom1 = new GenLayerZoom(2002L, genlayeraddisland2);
-        genlayerzoom1 = new GenLayerZoom(2003L, genlayerzoom1);
-        
-//        GenLayer genlayeraddisland3 = new GenLayerAddIsland(4L, genlayerzoom1);
-//        GenLayer genlayeraddmushroomisland = new GenLayerAddMushroomIsland(5L, genlayeraddisland3);
-//        GenLayer genlayerdeepocean = new GenLayerDeepOcean(4L, genlayeraddmushroomisland);
-        
-        GenLayer genlayer4 = GenLayerZoom.magnify(1000L, genlayerzoom1, 0);
-        
-        int biomeSize = 4;
-        int riverSize = biomeSize;
-
-        GenLayer lvt_7_1_ = GenLayerZoom.magnify(1000L, genlayer4, 0);
-        GenLayer genlayerriverinit = lvt_7_1_;//new GenLayerRiverInit(100L, lvt_7_1_);
-//        GenLayer genlayerbiomeedge = worldtype.getBiomeLayer(seed, genlayer4, genSettings);
-        //----
-//        GenLayer genlayerbiomeedge = GenLayerBiome(200L, genlayer4, worldtype, genSettings);
-//        genlayerbiomeedge = GenLayerZoom.magnify(1000L, ret, 2);
-        //----
-        GenLayer endbiomes = new GenLayerEndBiomes(200L, genlayer4);
-        endbiomes = GenLayerZoom.magnify(1000L, endbiomes, 2);
-       // genlayer4 = GenLayerZoom.magnify(1000L, genlayer4, 0);
-//        GenLayer lvt_9_1_ = GenLayerZoom.magnify(1000L, genlayerriverinit, 2);
-//        GenLayer genlayerhills = new GenLayerHills(1000L, genlayerbiomeedge, lvt_9_1_);
-        GenLayer genlayer5 = GenLayerZoom.magnify(1000L, genlayerriverinit, 2);
-        genlayer5 = GenLayerZoom.magnify(1000L, genlayer5, riverSize);
-        //GenLayer genlayerriver = new GenLayerRiver(1L, genlayer5);
-        GenLayer genlayerriver = genlayer5;
-        GenLayer genlayersmooth = new GenLayerSmooth(1000L, genlayerriver);
-//        genlayerhills = new GenLayerRareBiome(1001L, genlayerhills);
-
-        for (int k = 0; k < biomeSize; ++k)
-        {
-        	genlayerriver = new GenLayerZoom((long)(1000 + k), endbiomes);
-
-            if (k == 0)
-            {
-            	genlayerriver = new GenLayerAddIsland(3L, endbiomes);
-            }
-
-//            if (k == 1 || biomeSize == 1)
-//            {
-//            	genlayer4 = new GenLayerShore(1000L, genlayer4);
-//            }
-        }
-
-        GenLayer genlayersmooth1 = new GenLayerSmooth(1000L, endbiomes);
-        GenLayer genlayerrivermix = new GenLayerRiverMix(100L, genlayersmooth1, genlayersmooth);
-        GenLayer genlayer3 = new GenLayerVoronoiZoom(10L, genlayerrivermix);
-        genlayerrivermix.initWorldGenSeed(seed);
-        genlayer3.initWorldGenSeed(seed);
-        return new GenLayer[] {genlayerrivermix, genlayer3, genlayerrivermix};
-    }
-    
-    public static GenLayer[] initializeAllBiomeGenerators(long seed, WorldType p_180781_2_, ChunkGeneratorSettings p_180781_3_)
+    public static GenLayer[] initializeAllBiomeGenerators(long seed, WorldType worldType, ChunkGeneratorSettings genSettings)
     {
         GenLayer genlayer = new GenLayerIsland(1L);
         genlayer = new GenLayerFuzzyZoom(2000L, genlayer);
@@ -131,35 +60,27 @@ public abstract class EndGenLayer
         //GenLayer genlayerdeepocean = new GenLayerDeepOcean(4L, genlayeraddmushroomisland);
         GenLayer genlayerdeepocean = genlayeraddisland3;
         GenLayer genlayer4 = GenLayerZoom.magnify(1000L, genlayerdeepocean, 0);
-        int i = 4;
-        int j = i;
+        int biomeSize = 4;
+        int riverSize = biomeSize;
 
-        if (p_180781_3_ != null)
-        {
-            i = p_180781_3_.biomeSize;
-            j = p_180781_3_.riverSize;
-        }
-
-        if (p_180781_2_ == WorldType.LARGE_BIOMES)
-        {
-            i = 6;
-        }
-
-        i = getModdedBiomeSize(p_180781_2_, i);
+        biomeSize = getModdedBiomeSize(worldType, biomeSize);
 
         GenLayer lvt_7_1_ = GenLayerZoom.magnify(1000L, genlayer4, 0);
-        GenLayer genlayerriverinit = new GenLayerRiverInit(100L, lvt_7_1_);
+//        GenLayer genlayerriverinit = new GenLayerRiverInit(100L, lvt_7_1_);
+        GenLayer genlayerriverinit = lvt_7_1_;
         //GenLayer genlayerbiomeedge = p_180781_2_.getBiomeLayer(seed, genlayer4, p_180781_3_);
         GenLayer genlayerbiomeedge = new GenLayerEndBiomes(200L, genlayer4);
         GenLayer lvt_9_1_ = GenLayerZoom.magnify(1000L, genlayerriverinit, 2);
-        GenLayer genlayerhills = new GenLayerHills(1000L, genlayerbiomeedge, lvt_9_1_);
+        //GenLayer genlayerhills = new GenLayerHills(1000L, genlayerbiomeedge, lvt_9_1_);
+        GenLayer genlayerhills = genlayerbiomeedge;
         GenLayer genlayer5 = GenLayerZoom.magnify(1000L, genlayerriverinit, 2);
-        genlayer5 = GenLayerZoom.magnify(1000L, genlayer5, j);
-        GenLayer genlayerriver = new GenLayerRiver(1L, genlayer5);
+        genlayer5 = GenLayerZoom.magnify(1000L, genlayer5, riverSize);
+        //GenLayer genlayerriver = new GenLayerRiver(1L, genlayer5);
+        GenLayer genlayerriver = genlayer5;
         GenLayer genlayersmooth = new GenLayerSmooth(1000L, genlayerriver);
         //genlayerhills = new GenLayerRareBiome(1001L, genlayerhills);
 
-        for (int k = 0; k < i; ++k)
+        for (int k = 0; k < biomeSize; ++k)
         {
             genlayerhills = new GenLayerZoom((long)(1000 + k), genlayerhills);
 
@@ -168,20 +89,21 @@ public abstract class EndGenLayer
                 genlayerhills = new GenLayerAddIsland(3L, genlayerhills);
             }
 
-            if (k == 1 || i == 1)
-            {
-                genlayerhills = new GenLayerShore(1000L, genlayerhills);
-            }
+//            if (k == 1 || biomeSize == 1)
+//            {
+//                genlayerhills = new GenLayerShore(1000L, genlayerhills);
+//            }
         }
 
         GenLayer genlayersmooth1 = new GenLayerSmooth(1000L, genlayerhills);
-        GenLayer genlayerrivermix = new GenLayerRiverMix(100L, genlayersmooth1, genlayersmooth);
+//        GenLayer genlayerrivermix = new GenLayerRiverMix(100L, genlayersmooth1, genlayersmooth);
+        GenLayer genlayerrivermix = genlayersmooth1;
         GenLayer genlayer3 = new GenLayerVoronoiZoom(10L, genlayerrivermix);
+        //genlayer3 = new GenLayerSmooth(990L, genlayer3);
         //GenLayer genlayer3 = GenLayerZoom.magnify(10L, genlayerrivermix, 1);
         genlayerrivermix.initWorldGenSeed(seed);
         genlayer3.initWorldGenSeed(seed);
-        //end biomes seem non existent in genlayer3 after voronoiZoom
-        //who tf knows why tho BECAUSE THIS WHOLE STRUCTURE IS BLACK FUCKING MAGIC
+        
         return new GenLayer[] {genlayerrivermix, genlayer3, genlayerrivermix};
     }
 

@@ -3,6 +3,7 @@ package fluke.end.world.biomes;
 import java.util.Random;
 
 import fluke.end.block.ModBlocks;
+import fluke.end.world.BiomeRegistrar;
 import fluke.end.world.feature.WorldGenEnderCanopy;
 import fluke.end.world.feature.WorldGenReplaceEndSurface;
 import fluke.end.world.feature.WorldGenSurfacePatch;
@@ -23,7 +24,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BiomeEndVolcano extends Biome
 {
 	public static BiomeProperties properties = new BiomeProperties("End Volcano");
-	public WorldGenerator endObsidianGen;
 	private static final IBlockState AIR = Blocks.AIR.getDefaultState();
 	private static final IBlockState END_STONE = Blocks.END_STONE.getDefaultState();
 	private static final IBlockState END_OBSIDIAN = ModBlocks.endObsidian.getDefaultState();
@@ -42,10 +42,9 @@ public class BiomeEndVolcano extends Biome
         this.spawnableWaterCreatureList.clear();
         this.spawnableCaveCreatureList.clear();
         this.spawnableMonsterList.add(new Biome.SpawnListEntry(EntityEnderman.class, 10, 4, 4));
-        this.topBlock = Blocks.DIRT.getDefaultState();
-        this.fillerBlock = Blocks.DIRT.getDefaultState();
+        this.topBlock = END_OBSIDIAN;
+        this.fillerBlock = END_OBSIDIAN;
         this.decorator = new BiomeEndDecorator();
-        this.endObsidianGen = new WorldGenReplaceEndSurface(END_OBSIDIAN, END_STONE, false);
     }
     
     @Override
@@ -62,7 +61,7 @@ public class BiomeEndVolcano extends Biome
     
     public void decorate(World worldIn, Random rand, BlockPos pos)
     {
-    	endObsidianGen.generate(worldIn, rand, pos.add(8, 0, 8));
+
     }
     
     private int getEndSurfaceHeight(World world, BlockPos pos)

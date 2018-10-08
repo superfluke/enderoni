@@ -15,7 +15,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
-//TODO check that space to generate is empty 
+//TODO floating over lowering terrain/ roots
 public class WorldGenEnderCanopy extends WorldGenAbstractTree  
 {
 	protected static final IBlockState LOG = ModBlocks.endLog.getDefaultState();
@@ -31,6 +31,10 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 	@Override
 	public boolean generate(World world, Random rand, BlockPos pos) 
 	{
+		IBlockState inState = world.getBlockState(pos);
+		if(inState != END_GRASS && inState != Blocks.END_STONE.getDefaultState())
+			pos = pos.down();
+		
 		int trunkHeight = 16 + rand.nextInt(4);
 		if(!isValidGenLocation(world, pos, trunkHeight))
 			return false;
@@ -46,7 +50,7 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 	{
 		if(pos.getY() < 3 || pos.getY() + trunkHeight + 22 > 255)
 			return false;
-		
+
 		for(BlockPos trunkBaseBlock : BlockPos.getAllInBoxMutable(pos.add(-5, 0, -5), pos.add(5, 2, 5)))
 		{
 			IBlockState state = world.getBlockState(trunkBaseBlock);
@@ -197,13 +201,6 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
             blockpos = blockpos.down();
         }
     }
-	
-	//probably delete this
-	private boolean isVineFriendly(World world, BlockPos pos)
-	{
-		IBlockState statey = world.getBlockState(pos);
-		return statey == LOG || statey == LEAF;
-	}
 
 	private void buildTrunk(World world, Random rand, BlockPos center, int height)
 	{
@@ -254,7 +251,7 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 			//first 4 banches further out and in the four diagonal directions
 			if(n < 4)
 			{
-				branchLength = 14 + rand.nextInt(10);
+				branchLength = 14 + rand.nextInt(8);
 				branchHeight = 8 + rand.nextInt(7);
 				branchAngle = MathUtils.randIntBetween((45+90*n)-10, (45+90*n)+10, rand);
 			}

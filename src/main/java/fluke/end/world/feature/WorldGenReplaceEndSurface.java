@@ -3,9 +3,12 @@ package fluke.end.world.feature;
 import java.util.Random;
 
 import fluke.end.block.ModBlocks;
+import fluke.end.world.BiomeRegistrar;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Biomes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class WorldGenReplaceEndSurface extends WorldGenerator
@@ -25,13 +28,15 @@ public class WorldGenReplaceEndSurface extends WorldGenerator
         randy = new Random(800813);
     }
     
-    public boolean generate(World world, Random rand, BlockPos pos)
+    public boolean generate(World world, Random rand, BlockPos pos, Biome biome)
     {
 		for(int x=0; x<16; x++)
 		{
 			for(int z=0; z<16; z++)
 			{
-					
+				if(world.getBiome(pos.add(x, 0, z)) != biome)
+						continue;
+				
 				BlockPos current = pos.add(x, 70, z);
 				
 				//find the surface block
@@ -77,5 +82,10 @@ public class WorldGenReplaceEndSurface extends WorldGenerator
     		}
     	}
     }
+
+	@Override
+	public boolean generate(World worldIn, Random rand, BlockPos pos) {
+		return generate(worldIn, rand, pos, Biomes.SKY);
+	}
 
 }

@@ -52,7 +52,7 @@ public class BlockEndTallGrass extends BlockBush implements net.minecraftforge.c
         if (state.getBlock() == this) //Forge: This function is called during world gen and placement, before this block is set, so if we are not 'here' then assume it's the pre-check.
         {
             Block soil = worldIn.getBlockState(pos.down()).getBlock();
-            return soil == Blocks.END_STONE || soil == ModBlocks.endGrass;
+            return soil == ModBlocks.endGrass;
         }
         return canSustainBush(worldIn.getBlockState(pos.down()));
     }

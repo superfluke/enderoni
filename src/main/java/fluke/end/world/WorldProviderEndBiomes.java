@@ -14,6 +14,7 @@ public class WorldProviderEndBiomes extends WorldProviderEnd
 	@Override
 	public void init()
     {
+		//this.biomeProvider = new VanillaBiomeProvider(world.getWorldInfo());
 		this.biomeProvider = new EndBiomeProvider(world.getSeed(), world.getWorldType());
 //		this.biomeProvider = new BiomeProvider(world.getWorldInfo());
 		//this.biomeProvider = new BiomeProviderSingle(BiomeRegistrar.END_JUNGLE);

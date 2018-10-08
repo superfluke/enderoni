@@ -18,6 +18,8 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import fluke.end.block.ModBlocks;
+import fluke.end.world.BiomeRegistrar;
+import fluke.end.world.feature.WorldGenEndPlant;
 import fluke.end.world.feature.WorldGenEnderCanopy;
 import fluke.end.world.feature.WorldGenReplaceEndSurface;
 import fluke.end.world.feature.WorldGenSurfacePatch;
@@ -25,7 +27,8 @@ import fluke.end.world.feature.WorldGenSurfacePatch;
 public class BiomeEndJungle extends Biome
 {
 	public static BiomeProperties properties = new BiomeProperties("End Jungle");
-	public WorldGenerator endGrassGen;
+	public WorldGenerator endTallGrass;
+	public WorldGenerator endGlowGrass;
 	public WorldGenerator endGrassRemoval;
 	public WorldGenerator endCanopyTree;
 	private static final IBlockState AIR = Blocks.AIR.getDefaultState();
@@ -46,12 +49,13 @@ public class BiomeEndJungle extends Biome
         this.spawnableWaterCreatureList.clear();
         this.spawnableCaveCreatureList.clear();
         this.spawnableMonsterList.add(new Biome.SpawnListEntry(EntityEnderman.class, 10, 4, 4));
-        this.topBlock = Blocks.DIRT.getDefaultState();
-        this.fillerBlock = Blocks.DIRT.getDefaultState();
+        this.topBlock = END_GRASS;
+        this.fillerBlock = END_STONE;
         this.decorator = new BiomeEndDecorator();
-        this.endGrassGen = new WorldGenReplaceEndSurface(END_GRASS, END_STONE, true);
         this.endGrassRemoval = new WorldGenSurfacePatch(END_STONE, END_GRASS, 1);
         this.endCanopyTree = new WorldGenEnderCanopy(true);
+        endTallGrass = new WorldGenEndPlant(ModBlocks.endTallGrass.getDefaultState());
+        endGlowGrass = new WorldGenEndPlant(ModBlocks.endGlowPlant.getDefaultState());
     }
     
     @Override
@@ -66,26 +70,48 @@ public class BiomeEndJungle extends Biome
         return 0;
     }
     
-    public void decorate(World worldIn, Random rand, BlockPos pos)
+    public void decorate(World world, Random rand, BlockPos pos)
     {
     	Random randy = new Random();
-		endGrassGen.generate(worldIn, rand, pos.add(8, 0, 8));
-		endGrassRemoval.generate(worldIn, rand, pos.add(8, 0, 8));
+    	
+    	for(int x=0; x<16; x++)
+    	{
+    		for(int z=0; z<16; z++)
+    		{
+    			int plantRoll = randy.nextInt(100);
+    			if(plantRoll <= 17)
+    			{
+    				int terrainHeight = getEndSurfaceHeight(world, pos.add(x+8, 0, z+8), 52-randy.nextInt(5), 70);
+    				if(terrainHeight > 0)
+    				{
+    					BlockPos plantPos = pos.add(x+8, terrainHeight, z+8);
+    					if(plantRoll == 17)
+    						endGlowGrass.generate(world, randy, plantPos);
+    					else
+    						endTallGrass.generate(world, randy, plantPos);
+    				}
+    			}
+    		}
+    	}
+    				
+		
+		if(randy.nextInt(7) != 0)
+			endGrassRemoval.generate(world, rand, pos.add(8, 0, 8));
 		
 		if(randy.nextInt(14) == 0)
 		{
-			int yHeight = getEndSurfaceHeight(worldIn, pos.add(16, 0, 16));
+			int yHeight = getEndSurfaceHeight(world, pos.add(16, 0, 16), 50, 70);
 			if(yHeight > 0)
-				endCanopyTree.generate(worldIn, rand, pos.add(16, yHeight+1, 16));
+				endCanopyTree.generate(world, rand, pos.add(16, yHeight+1, 16));
 		}
 		
-		super.decorate(worldIn, rand, pos);
+		super.decorate(world, rand, pos);
     }
     
-    private int getEndSurfaceHeight(World world, BlockPos pos)
+    private int getEndSurfaceHeight(World world, BlockPos pos, int min, int max)
     {
-    	int maxY = 70;
-    	int minY = 45;
+    	int maxY = max;
+    	int minY = min;
     	int currentY = maxY;
     	
     	while(currentY >= minY)

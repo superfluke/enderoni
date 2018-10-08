@@ -9,23 +9,28 @@ import net.minecraft.world.gen.layer.IntCache;
 
 public class GenLayerEndBiomes extends GenLayer
 {
-	private static final int SKY_ID;
-	private static final int END_FOREST_ID;
-	private static final int END_VOLCANO_ID;
-	private static final int PLACEHOLDER;
+	private final int SKY_ID;
+	private final int END_FOREST_ID;
+	private final int END_VOLCANO_ID;
+	private final int PLACEHOLDER;
 	
 	static 
 	{
-		SKY_ID = Biome.getIdForBiome(Biomes.SKY);
-		END_FOREST_ID = Biome.getIdForBiome(BiomeRegistrar.END_JUNGLE);
-		END_VOLCANO_ID = Biome.getIdForBiome(Biomes.PLAINS);
-		PLACEHOLDER = SKY_ID;
+
+//		SKY_ID = Biome.getIdForBiome(Biomes.SKY);
+//		END_FOREST_ID = Biome.getIdForBiome(Biomes.MESA);
+//		END_VOLCANO_ID = Biome.getIdForBiome(Biomes.MUSHROOM_ISLAND);
+//		PLACEHOLDER = SKY_ID;
 	}
 	
     public GenLayerEndBiomes(long seed, GenLayer parent)
     {
         super(seed);
         this.parent = parent;  
+		SKY_ID = Biome.getIdForBiome(Biomes.SKY);
+		END_FOREST_ID = Biome.getIdForBiome(BiomeRegistrar.END_JUNGLE);
+		END_VOLCANO_ID = Biome.getIdForBiome(BiomeRegistrar.END_VOLCANO);
+		PLACEHOLDER = SKY_ID;
     }
     
     public int[] getInts(int areaX, int areaY, int areaWidth, int areaHeight)

@@ -10,18 +10,22 @@ import javax.annotation.Nullable;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 
 import com.google.common.collect.Lists;
 
+import fluke.end.block.ModBlocks;
+import fluke.end.world.feature.WorldGenEndVolcano;
 import fluke.end.world.feature.WorldGenEnderCanopy;
 
 public class DebugCommand extends CommandBase 
 {
 	private final List<String> aliases;
 	private static WorldGenEnderCanopy tree = new WorldGenEnderCanopy(false);
+	private static WorldGenEndVolcano volc = new WorldGenEndVolcano(ModBlocks.endObsidian.getDefaultState(), ModBlocks.endMagma.getDefaultState(), Blocks.LAVA.getDefaultState());
 	public DebugCommand()
 	{
         aliases = Lists.newArrayList(Reference.MOD_ID, "debugDeco", "dd");
@@ -48,7 +52,8 @@ public class DebugCommand extends CommandBase
         {
         	double x = ((EntityPlayer) sender).posX;
         	double z = ((EntityPlayer) sender).posZ;
-        	tree.generate(server.getEntityWorld(), new Random(), new BlockPos(x+2, 4, z+2));
+        	//tree.generate(server.getEntityWorld(), new Random(), new BlockPos(x+2, 4, z+2));
+        	volc.generate(server.getEntityWorld(), new Random(), new BlockPos(x+2, 4, z+2));
         	//sender.sendMessage(new TextComponentString("hello"));
         }
         

@@ -11,6 +11,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
+
+//TODO delete class
 public class WorldGenReplaceEndSurface extends WorldGenerator
 {
 	private final IBlockState surfaceBlockState;

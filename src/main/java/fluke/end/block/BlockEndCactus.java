@@ -32,8 +32,8 @@ public class BlockEndCactus extends Block implements net.minecraftforge.common.I
 {
 	public static final String REG_NAME = "endcactus";
 	public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 15);
-	protected static final AxisAlignedBB CACTUS_COLLISION_AABB = new AxisAlignedBB(0.125D, 0.0D, 0.125D, 0.875D, 0.9375D, 0.875D);
-    protected static final AxisAlignedBB CACTUS_AABB = new AxisAlignedBB(0.125D, 0.0D, 0.125D, 0.875D, 1.0D, 0.875D);
+	protected static final AxisAlignedBB CACTUS_COLLISION_AABB = new AxisAlignedBB(0.1875D, 0.0D, 0.1875D, 0.8125D, 0.9375D, 0.8125D);
+    protected static final AxisAlignedBB CACTUS_AABB = new AxisAlignedBB(0.1875D, 0.0D, 0.1875D, 0.8125D, 1.0D, 0.8125D);
 	
 	public BlockEndCactus()
 	{
@@ -132,18 +132,8 @@ public class BlockEndCactus extends Block implements net.minecraftforge.common.I
 
     public boolean canBlockStay(World worldIn, BlockPos pos)
     {
-        for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL)
-        {
-            Material material = worldIn.getBlockState(pos.offset(enumfacing)).getMaterial();
-
-            if (material.isSolid() || material == Material.LAVA)
-            {
-                return false;
-            }
-        }
-
         IBlockState state = worldIn.getBlockState(pos.down());
-        return state.getBlock().canSustainPlant(state, worldIn, pos.down(), EnumFacing.UP, this) && !worldIn.getBlockState(pos.up()).getMaterial().isLiquid();
+        return state.getBlock() == ModBlocks.endCactus || state.getBlock() == ModBlocks.endMagma;
     }
 
     /**
@@ -179,7 +169,7 @@ public class BlockEndCactus extends Block implements net.minecraftforge.common.I
     @Override
     public net.minecraftforge.common.EnumPlantType getPlantType(net.minecraft.world.IBlockAccess world, BlockPos pos)
     {
-        return net.minecraftforge.common.EnumPlantType.Desert;
+        return net.minecraftforge.common.EnumPlantType.Nether;
     }
 
     @Override

@@ -69,7 +69,7 @@ public class ModBlocks
 		reggy.register(new BlockEnderObsidian());
 		reggy.register(new BlockEndMagma());
 		reggy.register(new BlockEndCactus());
-		reggy.register(new ModBlockFluidClassic(ModFluids.ACID, new MaterialLiquid(MapColor.LIME)).setRegistryName("endacid"));
+		reggy.register(new ModBlockFluidClassic(ModFluids.ACID, new MaterialLiquid(MapColor.PURPLE)).setRegistryName("endacid").setUnlocalizedName("end:endacid"));
 	}
 	
 	@SubscribeEvent

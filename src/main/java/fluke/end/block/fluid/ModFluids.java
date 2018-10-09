@@ -13,7 +13,7 @@ public class ModFluids
 					.setHasBucket(true)
 					.setDensity(1100)
 					.setGaseous(false)
-					//.setLuminosity(9)
+					.setLuminosity(3)
 					.setViscosity(900)
 					.setTemperature(300)
 					.setUnlocalizedName("endacid");

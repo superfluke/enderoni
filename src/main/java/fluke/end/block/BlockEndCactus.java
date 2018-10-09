@@ -32,8 +32,8 @@ public class BlockEndCactus extends Block implements net.minecraftforge.common.I
 {
 	public static final String REG_NAME = "endcactus";
 	public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 15);
-	protected static final AxisAlignedBB CACTUS_COLLISION_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 0.9375D, 0.9375D);
-    protected static final AxisAlignedBB CACTUS_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 1.0D, 0.9375D);
+	protected static final AxisAlignedBB CACTUS_COLLISION_AABB = new AxisAlignedBB(0.125D, 0.0D, 0.125D, 0.875D, 0.9375D, 0.875D);
+    protected static final AxisAlignedBB CACTUS_AABB = new AxisAlignedBB(0.125D, 0.0D, 0.125D, 0.875D, 1.0D, 0.875D);
 	
 	public BlockEndCactus()
 	{
@@ -52,20 +52,20 @@ public class BlockEndCactus extends Block implements net.minecraftforge.common.I
 
         if (worldIn.isAirBlock(blockpos))
         {
-            int i;
+            int cactusHeight;
 
-            for (i = 1; worldIn.getBlockState(pos.down(i)).getBlock() == this; ++i)
+            for (cactusHeight = 1; worldIn.getBlockState(pos.down(cactusHeight)).getBlock() == this; ++cactusHeight)
             {
                 ;
             }
 
-            if (i < 3)
+            if (cactusHeight < 7)
             {
-                int j = ((Integer)state.getValue(AGE)).intValue();
+                int age = ((Integer)state.getValue(AGE)).intValue();
 
                 if(net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, blockpos, state, true))
                 {
-                if (j == 15)
+                if (age == 15)
                 {
                     worldIn.setBlockState(blockpos, this.getDefaultState());
                     IBlockState iblockstate = state.withProperty(AGE, Integer.valueOf(0));
@@ -74,7 +74,7 @@ public class BlockEndCactus extends Block implements net.minecraftforge.common.I
                 }
                 else
                 {
-                    worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(j + 1)), 4);
+                    worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(age + 1)), 4);
                 }
                 net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state, worldIn.getBlockState(pos));
                 }

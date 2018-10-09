@@ -25,8 +25,8 @@ public class DebugCommand extends CommandBase
 {
 	private final List<String> aliases;
 	private static WorldGenEnderCanopy tree = new WorldGenEnderCanopy(false);
-	private static WorldGenEndVolcano volc = new WorldGenEndVolcano(ModBlocks.endObsidian.getDefaultState(), ModBlocks.endMagma.getDefaultState(), Blocks.LAVA.getDefaultState());
-	//private static WorldGenEndVolcano volc = new WorldGenEndVolcano(Blocks.LOG.getDefaultState(), ModBlocks.endMagma.getDefaultState(), Blocks.LAVA.getDefaultState());
+	//private static WorldGenEndVolcano volc = new WorldGenEndVolcano(ModBlocks.endObsidian.getDefaultState(), ModBlocks.endMagma.getDefaultState(), Blocks.LAVA.getDefaultState());
+	private static WorldGenEndVolcano volc = new WorldGenEndVolcano(Blocks.LOG.getDefaultState(), ModBlocks.endMagma.getDefaultState(), ModBlocks.endAcid.getDefaultState());
 
 	public DebugCommand()
 	{

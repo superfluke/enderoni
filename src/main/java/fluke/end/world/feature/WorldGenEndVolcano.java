@@ -36,17 +36,14 @@ public class WorldGenEndVolcano extends WorldGenerator
 		perlin.SetFrequency(0.1F);
 		for(int y=0; y < maxHeight; y++)
 		{
-//			if(y > 0 && rand.nextInt(radius-y + 2) == 0)
-//				radius++;
-			
 			int layerRadius = radius - y/2;
 			double maxDist = layerRadius*layerRadius;
 			
-			for(int x=-layerRadius; x<=layerRadius; x++)
+			for(int x=-layerRadius-2; x<=layerRadius+2; x++)
 			{
 				double xDist = x*x;
 				
-				for(int z=-layerRadius; z<=layerRadius; z++)
+				for(int z=-layerRadius-2; z<=layerRadius+2; z++)
 				{
 					double zDist = z*z;
 					double noiseMod = (perlin.GetNoise(pos.getX()+x, y*2, pos.getZ()+z)+1)/2.0 + 0.5;
@@ -68,7 +65,7 @@ public class WorldGenEndVolcano extends WorldGenerator
 					
 				}
 			}
-		}
+		}		
 		return true;
 	}
 

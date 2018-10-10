@@ -54,9 +54,9 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 		for(BlockPos trunkBaseBlock : BlockPos.getAllInBoxMutable(pos.add(-5, 0, -5), pos.add(5, 2, 5)))
 		{
 			IBlockState state = world.getBlockState(trunkBaseBlock);
-			if(state != END_GRASS && !state.getBlock().isReplaceable(world, pos) && !isReplaceable(world, trunkBaseBlock, state))
+			if(state != END_GRASS && state != Blocks.END_STONE.getDefaultState() && !state.getBlock().isReplaceable(world, pos) && !isReplaceable(world, trunkBaseBlock, state))
 			{
-				System.out.println(state.getBlock().getLocalizedName());
+				//System.out.println(state.getBlock().getLocalizedName());
 				return false;
 			}
 		}
@@ -242,13 +242,21 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 		double xAngleTranslation;
 		double zAngleTranslation;
 		center = center.add(0, trunkHeight-2, 0);
-		for(int n=0; n<6; n++)
+		for(int n=0; n<7; n++)
 		{
+			//maybe we just don't bother making a branch this time
+			if(rand.nextInt(21) == 0)
+				continue;
+			
+			//only make branch 7 rarely
+			if(n == 6 && rand.nextInt(8) != 0)
+				continue;
+			
 			int branchLength;
 			int branchHeight;
 			int branchAngle;
 			
-			//first 4 banches further out and in the four diagonal directions
+			//first 4 branches further out and in the four diagonal directions
 			if(n < 4)
 			{
 				branchLength = 14 + rand.nextInt(8);
@@ -256,11 +264,18 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 				branchAngle = MathUtils.randIntBetween((45+90*n)-10, (45+90*n)+10, rand);
 			}
 			//next 2 branches closer and higher with more freedom of angle
-			else
+			else if(n < 6)
 			{
 				branchLength = 9 + rand.nextInt(7);
 				branchHeight = 15 + rand.nextInt(3);
 				branchAngle = MathUtils.randIntBetween((90+180*(n-4))-35, (90+180*(n-4))+35, rand);
+			}
+			//last, less common, branch shorter and lower with no angle restriction 
+			else
+			{
+				branchLength = 5 + rand.nextInt(5);
+				branchHeight = 5 + rand.nextInt(5);
+				branchAngle = rand.nextInt(360);
 			}
 			
 			xAngleTranslation = Math.cos(Math.toRadians(branchAngle));

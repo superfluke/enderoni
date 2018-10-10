@@ -98,7 +98,7 @@ public class BiomeEndJungle extends Biome
 		if(randy.nextInt(7) != 0)
 			endGrassRemoval.generate(world, rand, pos.add(8, 0, 8));
 		
-		if(randy.nextInt(11) == 0)
+		if(randy.nextInt(7) == 0)
 		{
 			int yHeight = getEndSurfaceHeight(world, pos.add(16, 0, 16), 50, 70);
 			if(yHeight > 0)

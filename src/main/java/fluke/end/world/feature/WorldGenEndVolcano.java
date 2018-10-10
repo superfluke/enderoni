@@ -68,7 +68,7 @@ public class WorldGenEndVolcano extends WorldGenerator
 					
 					if(x == 0 && z == 0)
 						volcBlock = volcLiquid;
-					else if(y < 7 && Math.abs(x) == 1 && Math.abs(z) == 1)
+					else if(y < 12 && xDist <= 1 && zDist <= 1)
 						volcBlock = volcLiquid;
 					else if(rand.nextInt(14) == 0)
 						volcBlock = volcSecondaryState;
@@ -76,7 +76,7 @@ public class WorldGenEndVolcano extends WorldGenerator
 						volcBlock = volcMainState;
 					
 					IBlockState downState = world.getBlockState(pos.add(x, y, z).down());
-					if(y == 0 ||  volcBlock == volcLiquid || downState == volcMainState || downState == volcSecondaryState)
+					if(y == 0 ||  volcBlock == volcLiquid || downState == volcMainState || downState == volcSecondaryState || (y==12 && (xDist <= 1 && zDist <= 1)))
 						world.setBlockState(pos.add(x, y, z), volcBlock);
 					
 				}

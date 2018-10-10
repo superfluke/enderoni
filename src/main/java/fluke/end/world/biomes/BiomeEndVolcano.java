@@ -4,6 +4,7 @@ import java.util.Random;
 
 import fluke.end.block.ModBlocks;
 import fluke.end.world.BiomeRegistrar;
+import fluke.end.world.feature.WorldGenEndVolcano;
 import fluke.end.world.feature.WorldGenEnderCanopy;
 import fluke.end.world.feature.WorldGenReplaceEndSurface;
 import fluke.end.world.feature.WorldGenSurfacePatch;
@@ -24,9 +25,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BiomeEndVolcano extends Biome
 {
 	public static BiomeProperties properties = new BiomeProperties("End Volcano");
+	public WorldGenerator endVolcano = new WorldGenEndVolcano(ModBlocks.endObsidian.getDefaultState(), ModBlocks.endMagma.getDefaultState(), ModBlocks.endAcid.getDefaultState());
 	private static final IBlockState AIR = Blocks.AIR.getDefaultState();
 	private static final IBlockState END_STONE = Blocks.END_STONE.getDefaultState();
 	private static final IBlockState END_OBSIDIAN = ModBlocks.endObsidian.getDefaultState();
+	private Random randy;
 	
 	static {
 		properties.setTemperature(Biomes.SKY.getDefaultTemperature());
@@ -45,6 +48,7 @@ public class BiomeEndVolcano extends Biome
         this.topBlock = END_OBSIDIAN;
         this.fillerBlock = END_OBSIDIAN;
         this.decorator = new BiomeEndDecorator();
+        randy = new Random();
     }
     
     @Override
@@ -59,15 +63,22 @@ public class BiomeEndVolcano extends Biome
         return 0;
     }
     
-    public void decorate(World worldIn, Random rand, BlockPos pos)
+    public void decorate(World world, Random rand, BlockPos pos)
     {
-
+    	if(randy.nextInt(14) == 0)
+		{
+			int yHeight = getEndSurfaceHeight(world, pos.add(16, 0, 16), 50, 70);
+			if(yHeight > 0)
+				endVolcano.generate(world, rand, pos.add(16, yHeight+1, 16));
+		}
+		
+		super.decorate(world, rand, pos);
     }
     
-    private int getEndSurfaceHeight(World world, BlockPos pos)
+    private int getEndSurfaceHeight(World world, BlockPos pos, int min, int max)
     {
-    	int maxY = 70;
-    	int minY = 45;
+    	int maxY = max;
+    	int minY = min;
     	int currentY = maxY;
     	
     	while(currentY >= minY)

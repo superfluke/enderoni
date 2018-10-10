@@ -34,6 +34,7 @@ public class BiomeEndJungle extends Biome
 	private static final IBlockState AIR = Blocks.AIR.getDefaultState();
 	private static final IBlockState END_STONE = Blocks.END_STONE.getDefaultState();
 	private static final IBlockState END_GRASS = ModBlocks.endGrass.getDefaultState();
+	private Random randy;
 	
 	static {
 		properties.setTemperature(Biomes.SKY.getDefaultTemperature());
@@ -56,6 +57,7 @@ public class BiomeEndJungle extends Biome
         this.endCanopyTree = new WorldGenEnderCanopy(true);
         endTallGrass = new WorldGenEndPlant(ModBlocks.endTallGrass.getDefaultState());
         endGlowGrass = new WorldGenEndPlant(ModBlocks.endGlowPlant.getDefaultState());
+        randy = new Random();
     }
     
     @Override
@@ -71,9 +73,7 @@ public class BiomeEndJungle extends Biome
     }
     
     public void decorate(World world, Random rand, BlockPos pos)
-    {
-    	Random randy = new Random();
-    	
+    {	
     	for(int x=0; x<16; x++)
     	{
     		for(int z=0; z<16; z++)
@@ -98,7 +98,7 @@ public class BiomeEndJungle extends Biome
 		if(randy.nextInt(7) != 0)
 			endGrassRemoval.generate(world, rand, pos.add(8, 0, 8));
 		
-		if(randy.nextInt(14) == 0)
+		if(randy.nextInt(11) == 0)
 		{
 			int yHeight = getEndSurfaceHeight(world, pos.add(16, 0, 16), 50, 70);
 			if(yHeight > 0)

@@ -13,7 +13,7 @@ public class ModFluids
 					.setHasBucket(true)
 					.setDensity(1100)
 					.setGaseous(false)
-					.setLuminosity(3)
+					.setLuminosity(5)
 					.setViscosity(900)
 					.setTemperature(300)
 					.setUnlocalizedName("endacid");
@@ -22,7 +22,7 @@ public class ModFluids
     {
 		System.out.println("Registering acid");
 		FluidRegistry.registerFluid(ACID);
-		FluidRegistry.addBucketForFluid(ACID);
+		FluidRegistry.addBucketForFluid(ACID); //TODO bucket?
 //        if (ACID.isBucketEnabled())
 //        {
 //            FluidRegistry.addBucketForFluid(ACID);

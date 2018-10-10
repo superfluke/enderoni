@@ -32,7 +32,7 @@ public class BlockEndMagma extends Block
 	{
         super(Material.ROCK);
         this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
-        this.setLightLevel(0.2F);
+        this.setLightLevel(0.3F);
         this.setTickRandomly(true);
         this.setHardness(0.5F);
         this.setSoundType(SoundType.STONE);

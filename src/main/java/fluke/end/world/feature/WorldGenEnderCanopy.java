@@ -172,7 +172,7 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 	private void placeVine(World world, Random rand, BlockPos pos) 
 	{
         //int length = rand.nextInt(rand.nextInt(12)+5);
-        int length = rand.nextInt(17);
+        int length = rand.nextInt(22);
         int vineChance = rand.nextInt(1);
         
         if (vineChance == 0) 

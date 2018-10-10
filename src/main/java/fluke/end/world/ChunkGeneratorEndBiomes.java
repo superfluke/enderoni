@@ -130,7 +130,6 @@ public class ChunkGeneratorEndBiomes extends ChunkGeneratorEnd
                                 if (d15 > 0.0D)
                                 {
                                     iblockstate = END_STONE;
-                                    //iblockstate = Blocks.STONE.getDefaultState();
                                 }
 
                                 int k2 = i2 + i1 * 8;
@@ -185,7 +184,7 @@ public class ChunkGeneratorEndBiomes extends ChunkGeneratorEnd
                     {
                         if (l == -1)
                         {
-                            l = 1;
+                            l = 3+rand.nextInt(2);
 
                             if (i1 >= 0)
                             {

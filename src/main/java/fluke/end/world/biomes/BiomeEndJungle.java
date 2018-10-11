@@ -3,8 +3,6 @@ package fluke.end.world.biomes;
 import java.util.Random;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.block.state.pattern.BlockMatcher;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
@@ -13,15 +11,12 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeEndDecorator;
-import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import fluke.end.block.ModBlocks;
-import fluke.end.world.BiomeRegistrar;
 import fluke.end.world.feature.WorldGenEndPlant;
 import fluke.end.world.feature.WorldGenEnderCanopy;
-import fluke.end.world.feature.WorldGenReplaceEndSurface;
 import fluke.end.world.feature.WorldGenSurfacePatch;
 
 public class BiomeEndJungle extends Biome

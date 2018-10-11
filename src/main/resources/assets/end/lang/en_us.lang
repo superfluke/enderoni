@@ -1,3 +1,11 @@
-tile.end.endlog.name=End Log
-tile.end.endleaves.name=End Leaves
+tile.end.endlog.name=Wyrmwood Log
+tile.end.endleaves.name=Wyrmwood Leaves
 tile.end.endgrass.name=End Grass
+tile.end.endcactus.name=End Cactus
+tile.end.endcanopysapling.name=Wyrmwood Sapling
+tile.end.endtallgrass.name=End Tall grass
+tile.end.endobsidian.name=End Obsidian
+tile.end.endmagma.name=End Magma
+tile.end.endvine.name=End Vine
+tile.end.endglow.name=End Glow Plant
+tile.end:endacid.name=End Acid

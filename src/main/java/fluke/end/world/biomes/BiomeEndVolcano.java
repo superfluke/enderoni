@@ -2,14 +2,6 @@ package fluke.end.world.biomes;
 
 import java.util.Random;
 
-import fluke.end.block.ModBlocks;
-import fluke.end.world.BiomeRegistrar;
-import fluke.end.world.feature.WorldGenEndCactus;
-import fluke.end.world.feature.WorldGenEndLake;
-import fluke.end.world.feature.WorldGenEndVolcano;
-import fluke.end.world.feature.WorldGenEnderCanopy;
-import fluke.end.world.feature.WorldGenReplaceEndSurface;
-import fluke.end.world.feature.WorldGenSurfacePatch;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.init.Biomes;
@@ -19,12 +11,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeEndDecorator;
-import net.minecraft.world.chunk.ChunkPrimer;
-import net.minecraft.world.biome.Biome.BiomeProperties;
 import net.minecraft.world.gen.feature.WorldGenLakes;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import fluke.end.block.ModBlocks;
+import fluke.end.world.feature.WorldGenEndCactus;
+import fluke.end.world.feature.WorldGenEndLake;
+import fluke.end.world.feature.WorldGenEndVolcano;
 
 public class BiomeEndVolcano extends Biome
 {
@@ -89,7 +83,7 @@ public class BiomeEndVolcano extends Biome
 				endLargeLake.generate(world, rand, pos.add(randX, yHeight, randZ));
     	}
     	
-    	if(randy.nextInt(2) == 0)
+    	if(randy.nextInt(1) == 0)
     	{
     		int randX = rand.nextInt(16)+8;
     		int randZ = rand.nextInt(16)+8;

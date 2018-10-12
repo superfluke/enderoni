@@ -1,7 +1,0 @@
-{
-  "forge_marker": 1,
-  "variants": {
-        "normal": { "model": "end:endcactus" },
-        "inventory": { "model": "end:endcactus_inv" }
-    }
-}

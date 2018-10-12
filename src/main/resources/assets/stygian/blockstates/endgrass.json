@@ -1,0 +1,21 @@
+{
+  "forge_marker": 1,
+   "defaults": {
+    "textures": {
+      "down": "stygian:block/end_stone",
+      "up": "stygian:block/endgrass_top",
+      "north": "stygian:block/endgrass_side",
+      "east": "stygian:block/endgrass_side",
+      "south": "stygian:block/endgrass_side",
+      "west": "stygian:block/endgrass_side",
+      "particle": "stygian:block/endgrass_side"
+    },
+    "model": "cube_all",
+    "uvlock": true,
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}]
+  }
+}

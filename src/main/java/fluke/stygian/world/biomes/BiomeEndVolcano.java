@@ -23,7 +23,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BiomeEndVolcano extends Biome
 {
-	public static BiomeProperties properties = new BiomeProperties("End Volcano");
+	public static BiomeProperties properties = new BiomeProperties("Acidic Plains");
 	private static final IBlockState AIR = Blocks.AIR.getDefaultState();
 	private static final IBlockState END_STONE = Blocks.END_STONE.getDefaultState();
 	private static final IBlockState END_OBSIDIAN = ModBlocks.endObsidian.getDefaultState();

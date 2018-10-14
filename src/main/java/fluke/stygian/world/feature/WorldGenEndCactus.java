@@ -19,7 +19,7 @@ public class WorldGenEndCactus extends WorldGenerator
 		if(world.getBlockState(pos.down()).getBlock() == ModBlocks.endAcid)
 			return false;
 		
-		int height = 2 + rand.nextInt(6);
+		int height = 3 + rand.nextInt(5);
 		
 		world.setBlockState(pos, END_MAGMA);
 		for(int y=1; y<=height; y++)

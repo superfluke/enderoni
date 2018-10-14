@@ -5,6 +5,7 @@ import fluke.stygian.block.fluid.ModFluids;
 import fluke.stygian.util.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
 @GameRegistry.ObjectHolder(Reference.MOD_ID)
@@ -23,6 +25,9 @@ public class ModBlocks
 {
 	@GameRegistry.ObjectHolder(BlockEndLog.REG_NAME)
     public static BlockEndLog endLog;
+	
+	@GameRegistry.ObjectHolder(BlockEndPlanks.REG_NAME)
+    public static BlockEndPlanks endPlanks;
 	
 	@GameRegistry.ObjectHolder(BlockEndLeaves.REG_NAME)
     public static BlockEndLeaves endLeaves;
@@ -60,6 +65,7 @@ public class ModBlocks
 		ModFluids.registerFluids();
 		IForgeRegistry<Block> reggy = event.getRegistry();
 		reggy.register(new BlockEndLog());
+		reggy.register(new BlockEndPlanks());
 		reggy.register(new BlockEndLeaves());
 		reggy.register(new BlockEndGrass());
 		reggy.register(new BlockEndTallGrass());
@@ -69,7 +75,7 @@ public class ModBlocks
 		reggy.register(new BlockEnderObsidian());
 		reggy.register(new BlockEndMagma());
 		reggy.register(new BlockEndCactus());
-		reggy.register(new ModBlockFluidClassic(ModFluids.ACID, new MaterialLiquid(MapColor.PURPLE)).setRegistryName("endacid").setUnlocalizedName("stygian:endacid"));
+		reggy.register(new ModBlockFluidClassic(ModFluids.ACID, Material.WATER).setRegistryName("endacid").setUnlocalizedName("stygian:endacid"));// new MaterialLiquid(MapColor.PURPLE)).setRegistryName("endacid").setUnlocalizedName("stygian:endacid"));
 	}
 	
 	@SubscribeEvent
@@ -77,6 +83,7 @@ public class ModBlocks
 	{
 		IForgeRegistry<Item> reggy = event.getRegistry();
 		reggy.register(new ItemBlock(ModBlocks.endLog).setRegistryName(ModBlocks.endLog.getRegistryName()));
+		reggy.register(new ItemBlock(ModBlocks.endPlanks).setRegistryName(ModBlocks.endPlanks.getRegistryName()));
 		reggy.register(new ItemBlock(ModBlocks.endLeaves).setRegistryName(ModBlocks.endLeaves.getRegistryName()));
 		reggy.register(new ItemBlock(ModBlocks.endGrass).setRegistryName(ModBlocks.endGrass.getRegistryName()));
 		reggy.register(new ItemBlock(ModBlocks.endTallGrass).setRegistryName(ModBlocks.endTallGrass.getRegistryName()));
@@ -87,11 +94,16 @@ public class ModBlocks
 		reggy.register(new ItemBlock(ModBlocks.endMagma).setRegistryName(ModBlocks.endMagma.getRegistryName()));
 		reggy.register(new ItemBlock(ModBlocks.endCactus).setRegistryName(ModBlocks.endCactus.getRegistryName()));
 		reggy.register(new ItemBlock(ModBlocks.endAcid).setRegistryName("endacid"));
+		
+		OreDictionary.registerOre("logWood", endLog);
+		OreDictionary.registerOre("plankWood", endPlanks);
+		OreDictionary.registerOre("treeLeaves", endLeaves);
 	}
 	
 	@SideOnly(Side.CLIENT)
     public static void initModels() {
 		endLog.initModel();
+		endPlanks.initModel();
 		endLeaves.initModel();
 		endGrass.initModel();
 		endTallGrass.initModel();

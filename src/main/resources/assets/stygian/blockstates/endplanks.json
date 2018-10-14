@@ -2,7 +2,7 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "all": "stygian:endmagma"
+      "all": "stygian:block/endplanks"
     },
     "model": "cube_all",
     "uvlock": true,

@@ -6,6 +6,7 @@ import fluke.stygian.block.ModBlocks;
 import fluke.stygian.world.feature.WorldGenEndCactus;
 import fluke.stygian.world.feature.WorldGenEndLake;
 import fluke.stygian.world.feature.WorldGenEndVolcano;
+import fluke.stygian.world.feature.WorldGenSurfacePatch;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.init.Biomes;
@@ -23,14 +24,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BiomeEndVolcano extends Biome
 {
 	public static BiomeProperties properties = new BiomeProperties("End Volcano");
-	public WorldGenerator endVolcano = new WorldGenEndVolcano(ModBlocks.endObsidian.getDefaultState(), ModBlocks.endMagma.getDefaultState(), ModBlocks.endAcid.getDefaultState());
-	public WorldGenerator endSmallLake = new WorldGenLakes(ModBlocks.endAcid);
-	public WorldGenerator endLargeLake = new WorldGenEndLake(ModBlocks.endAcid.getDefaultState(), ModBlocks.endObsidian.getDefaultState());
-	public WorldGenerator endCactus = new WorldGenEndCactus();
 	private static final IBlockState AIR = Blocks.AIR.getDefaultState();
 	private static final IBlockState END_STONE = Blocks.END_STONE.getDefaultState();
 	private static final IBlockState END_OBSIDIAN = ModBlocks.endObsidian.getDefaultState();
 	private static final IBlockState END_MAGMA = ModBlocks.endMagma.getDefaultState();
+	public WorldGenerator endVolcano = new WorldGenEndVolcano(END_OBSIDIAN, END_MAGMA, ModBlocks.endAcid.getDefaultState());
+	public WorldGenerator endSmallLake = new WorldGenLakes(ModBlocks.endAcid);
+	public WorldGenerator endLargeLake = new WorldGenEndLake(ModBlocks.endAcid.getDefaultState(), END_OBSIDIAN);
+	public WorldGenerator endCactus = new WorldGenEndCactus();
+	public WorldGenerator magmaPatch = new WorldGenSurfacePatch(END_MAGMA, END_OBSIDIAN, 1);
 	private Random randy;
 	
 	static {
@@ -83,7 +85,7 @@ public class BiomeEndVolcano extends Biome
 				endLargeLake.generate(world, rand, pos.add(randX, yHeight, randZ));
     	}
     	
-    	if(randy.nextInt(1) == 0)
+    	for(int n=0; n<2; n++)
     	{
     		int randX = rand.nextInt(16)+8;
     		int randZ = rand.nextInt(16)+8;
@@ -99,6 +101,11 @@ public class BiomeEndVolcano extends Biome
     		int yHeight = getEndSurfaceHeight(world, pos.add(randX, 0, randZ), 60, 70, null);
 			if(yHeight > 0)
 				endSmallLake.generate(world, rand, pos.add(randX, yHeight, randZ));
+    	}
+    	
+    	if(randy.nextInt(8) == 0)
+    	{
+    		magmaPatch.generate(world, rand, pos.add(8, 0, 8));
     	}
 		
 		super.decorate(world, rand, pos);

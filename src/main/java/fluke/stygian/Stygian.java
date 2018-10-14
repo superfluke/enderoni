@@ -38,7 +38,6 @@ public class Stygian
 	@EventHandler
 	public static void preInit(FMLInitializationEvent event)
 	{
-		//ModFluids.registerFluids();
 	}
 	
 	@EventHandler
@@ -56,6 +55,6 @@ public class Stygian
 	@EventHandler
 	public void startServer(FMLServerStartingEvent event) 
 	{
-		event.registerServerCommand(new DebugCommand()); //TODO delete
+		//event.registerServerCommand(new DebugCommand()); //TODO delete
 	}
 }

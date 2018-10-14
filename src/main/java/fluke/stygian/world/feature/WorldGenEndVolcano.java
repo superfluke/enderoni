@@ -69,7 +69,7 @@ public class WorldGenEndVolcano extends WorldGenerator
 						volcBlock = volcLiquid;
 					else if(y < 12 && xDist <= 1 && zDist <= 1)
 						volcBlock = volcLiquid;
-					else if(rand.nextInt(14) == 0)
+					else if(rand.nextInt(11) == 0)
 						volcBlock = volcSecondaryState;
 					else
 						volcBlock = volcMainState;

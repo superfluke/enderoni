@@ -55,11 +55,11 @@ public class GenLayerEndBiomes extends GenLayer
                 }
                 else if(biomeInt == 3)
                 {
-                	outLayer[j + i * areaWidth] = END_VOLCANO_ID;
+                	outLayer[j + i * areaWidth] =  PLACEHOLDER;
                 }
                 else if(biomeInt == 4)
                 {
-                	outLayer[j + i * areaWidth] = PLACEHOLDER;
+                	outLayer[j + i * areaWidth] = END_VOLCANO_ID;
                 }
                 else
                 {

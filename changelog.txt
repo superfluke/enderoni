@@ -1,0 +1,10 @@
+1.0.1
+----------
+Fixed acidic plains using wrong name
+Fixed weird rng cactus placement
+Fixed missing biome tags causing weirdness
+
+
+1.0.0
+----------
+Whooooo end biomes!

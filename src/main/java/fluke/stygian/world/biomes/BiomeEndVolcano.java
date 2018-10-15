@@ -87,8 +87,8 @@ public class BiomeEndVolcano extends Biome
     	
     	for(int n=0; n<2; n++)
     	{
-    		int randX = rand.nextInt(16)+8;
-    		int randZ = rand.nextInt(16)+8;
+    		int randX = randy.nextInt(16)+8;
+    		int randZ = randy.nextInt(16)+8;
     		int yHeight = getEndSurfaceHeight(world, pos.add(randX, 0, randZ), 50, 70, null);
 			if(yHeight > 0)
 				endCactus.generate(world, rand, pos.add(randX, yHeight, randZ));

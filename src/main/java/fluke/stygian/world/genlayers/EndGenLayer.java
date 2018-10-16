@@ -38,7 +38,9 @@ public abstract class EndGenLayer
         GenLayer genlayeraddisland1 = new GenLayerAddIsland(2L, genlayerzoom);
         genlayeraddisland1 = new GenLayerAddIsland(50L, genlayeraddisland1);
         genlayeraddisland1 = new GenLayerAddIsland(70L, genlayeraddisland1);
-        GenLayer genlayerremovetoomuchocean = new GenLayerRemoveTooMuchOcean(2L, genlayeraddisland1);
+        //GenLayer genlayerremovetoomuchocean = new GenLayerRemoveTooMuchOcean(2L, genlayeraddisland1);
+        GenLayer genlayerremovetoomuchocean = new GenLayerRemoveSomeOcean(2L, genlayeraddisland1);
+        //GenLayer genlayerremovetoomuchocean = genlayeraddisland1;
         GenLayer genlayeraddsnow = new GenLayerAddSnow(2L, genlayerremovetoomuchocean);
         GenLayer genlayeraddisland2 = new GenLayerAddIsland(3L, genlayeraddsnow);
         //GenLayer genlayeredge = new GenLayerEdge(2L, genlayeraddisland2, GenLayerEdge.Mode.COOL_WARM);

@@ -1,5 +1,6 @@
 package fluke.stygian.block;
 
+import fluke.stygian.util.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -7,7 +8,8 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
-import fluke.stygian.util.Reference;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockEndPlanks extends Block 
 {
@@ -23,6 +25,7 @@ public class BlockEndPlanks extends Block
 		setRegistryName(REG_NAME);
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public void initModel() 
 	{
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));

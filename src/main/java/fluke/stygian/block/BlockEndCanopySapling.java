@@ -5,7 +5,6 @@ import java.util.Random;
 import fluke.stygian.util.Reference;
 import fluke.stygian.world.feature.WorldGenEnderCanopy;
 import net.minecraft.block.BlockBush;
-import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
@@ -21,10 +20,10 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenBigTree;
-import net.minecraft.world.gen.feature.WorldGenTrees;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockEndCanopySapling extends BlockBush implements IGrowable
 {
@@ -130,6 +129,7 @@ public class BlockEndCanopySapling extends BlockBush implements IGrowable
         this.grow(worldIn, pos, state, rand);
     }
     
+    @SideOnly(Side.CLIENT)
     public void initModel() 
 	{
 		IStateMapper mappy = (new StateMap.Builder()).ignore(new IProperty[] { STAGE }).build();

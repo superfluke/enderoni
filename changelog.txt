@@ -3,6 +3,9 @@
 Fixed acidic plains using wrong name
 Fixed weird rng cactus placement
 Fixed missing biome tags causing weirdness
+Tried to make the frequency of biomes more even
+Fixed crash on dedicated server
+Reduced intensity of Leachstone color
 
 
 1.0.0

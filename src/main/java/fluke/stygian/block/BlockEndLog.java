@@ -11,11 +11,12 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityEndermite;
-import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockEndLog extends Block 
 {
@@ -71,6 +72,7 @@ public class BlockEndLog extends Block
     	return true; 
     }
 
+    @SideOnly(Side.CLIENT)
 	public void initModel() 
 	{
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));

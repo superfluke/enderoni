@@ -25,6 +25,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockEndGlowPlant extends BlockBush implements net.minecraftforge.common.IShearable
 {
@@ -102,6 +104,7 @@ public class BlockEndGlowPlant extends BlockBush implements net.minecraftforge.c
         return NonNullList.withSize(1, new ItemStack(ModBlocks.endGlowPlant, 1, 0));
     }
     
+    @SideOnly(Side.CLIENT)
     public void initModel() 
 	{
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));

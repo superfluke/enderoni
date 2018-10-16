@@ -197,6 +197,7 @@ public class BlockEndCactus extends Block implements net.minecraftforge.common.I
         return BlockFaceShape.UNDEFINED;
     }
     
+    @SideOnly(Side.CLIENT)
     public void initModel() 
 	{
 		IStateMapper mappy = (new StateMap.Builder()).ignore(new IProperty[] { AGE }).build();

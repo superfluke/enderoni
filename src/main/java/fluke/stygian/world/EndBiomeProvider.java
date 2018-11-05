@@ -34,7 +34,7 @@ public class EndBiomeProvider extends BiomeProvider {
 		//this.biomesToSpawnIn = Lists.newArrayList(allowedBiomes);
         
         GenLayer[] agenlayer = EndGenLayer.initializeAllBiomeGenerators(seed, worldTypeIn, null);
-        agenlayer = getModdedBiomeGenerators(worldTypeIn, seed, agenlayer);
+        //agenlayer = getModdedBiomeGenerators(worldTypeIn, seed, agenlayer);
         this.genBiomes = agenlayer[0];
         this.biomeIndexLayer = agenlayer[1];
 	}

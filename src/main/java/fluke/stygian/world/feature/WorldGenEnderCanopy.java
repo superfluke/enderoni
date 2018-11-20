@@ -53,10 +53,12 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 
 		for(BlockPos trunkBaseBlock : BlockPos.getAllInBoxMutable(pos.add(-5, 0, -5), pos.add(5, 2, 5)))
 		{
+			
 			IBlockState state = world.getBlockState(trunkBaseBlock);
-			if(state != END_GRASS && state != Blocks.END_STONE.getDefaultState() && !state.getBlock().isReplaceable(world, pos) && !isReplaceable(world, trunkBaseBlock, state))
+			if(state != END_GRASS && state != Blocks.END_STONE.getDefaultState() && state.getBlock() != ModBlocks.endCanopySapling && !state.getBlock().isReplaceable(world, pos) && !isReplaceable(world, trunkBaseBlock, state))
 			{
-				//System.out.println(state.getBlock().getLocalizedName());
+				//System.out.println(state.getBlock().getLocalizedName() + " blocked tree from spawning");
+				//System.out.println(trunkBaseBlock);
 				return false;
 			}
 		}
@@ -64,13 +66,19 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 		for(BlockPos trunkCoreBlock : BlockPos.getAllInBoxMutable(pos.add(-1, 3, -1), pos.add(1, trunkHeight-1, 3)))
 		{
 			if(!isReplaceable(world, trunkCoreBlock))
+			{
+				//System.out.println(trunkCoreBlock);
 				return false;
+			}
 		}
 		
 		for(BlockPos canopyBlock : BlockPos.getAllInBoxMutable(pos.add(-23, trunkHeight+7, -23), pos.add(23, trunkHeight+7, 23)))
 		{
 			if(!isReplaceable(world, canopyBlock))
+			{
+				//System.out.println(canopyBlock);
 				return false;
+			}
 		}
 		
 		return true;

@@ -15,8 +15,8 @@ public class BiomeRegistrar
 	
 	public static void registerBiomes()
 	{
-		initBiome(END_JUNGLE, "Stygian Growth", Type.END);
-		initBiome(END_VOLCANO, "Acidic Plains", Type.END);
+		initBiome(END_JUNGLE, "stygian_growth", Type.END);
+		initBiome(END_VOLCANO, "acidic_plains", Type.END);
 	}
 	
 	private static void initBiome(Biome biome, String name, Type... types)

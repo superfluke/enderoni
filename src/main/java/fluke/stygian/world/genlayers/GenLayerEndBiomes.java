@@ -1,6 +1,7 @@
 package fluke.stygian.world.genlayers;
 
 import fluke.stygian.Stygian;
+import fluke.stygian.config.Configs;
 import fluke.stygian.world.BiomeRegistrar;
 import net.minecraft.init.Biomes;
 import net.minecraft.world.biome.Biome;
@@ -13,10 +14,11 @@ public class GenLayerEndBiomes extends GenLayer
 	private final int END_FOREST_ID;
 	private final int END_VOLCANO_ID;
 	private final int PLACEHOLDER;
+	private final static int MAIN_ISLAND_SIZE;
 	
 	static 
 	{
-
+		MAIN_ISLAND_SIZE = (int) (80 / Math.pow(2, (Configs.worldgen.endBiomeSize-1)));
 //		SKY_ID = Biome.getIdForBiome(Biomes.SKY);
 //		END_FOREST_ID = Biome.getIdForBiome(Biomes.MESA);
 //		END_VOLCANO_ID = Biome.getIdForBiome(Biomes.MUSHROOM_ISLAND);
@@ -45,7 +47,7 @@ public class GenLayerEndBiomes extends GenLayer
             	this.initChunkSeed((long)(j + areaX), (long)(i + areaY));
                 int biomeInt = inLayer[j + i * areaWidth];
                 
-                if(biomeInt == 0 || (areaX < 10 && areaX > -10 && areaY < 10 && areaY > -10))
+                if(biomeInt == 0 || (areaX < MAIN_ISLAND_SIZE && areaX > -MAIN_ISLAND_SIZE && areaY < MAIN_ISLAND_SIZE && areaY > -MAIN_ISLAND_SIZE))
                 {
                 	outLayer[j + i * areaWidth] = SKY_ID;
                 }

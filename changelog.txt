@@ -1,3 +1,17 @@
+1.0.4
+----------
+Fixed biomes spawning on main island when biome size was changed
+Fixed bad biome registry names causing other mods to crash
+Added config option to reduce frequency of end biomes... which I hope works as expected
+
+1.0.3
+----------
+Fixed bug which prevented Wyrmwood saplings from growing 
+
+1.0.2
+----------
+Fixed bad interaction between Stygian End and Some Like it Dry
+
 1.0.1
 ----------
 Fixed acidic plains using wrong name

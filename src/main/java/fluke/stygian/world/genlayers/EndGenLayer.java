@@ -43,10 +43,11 @@ public abstract class EndGenLayer
         //GenLayer genlayerremovetoomuchocean = genlayeraddisland1;
         GenLayer genlayeraddsnow = new GenLayerAddSnow(2L, genlayerremovetoomuchocean);
         GenLayer genlayeraddisland2 = new GenLayerAddIsland(3L, genlayeraddsnow);
+    	GenLayer reduceBiomes = new GenLayerReduceFrequency(10L, genlayeraddisland2);
         //GenLayer genlayeredge = new GenLayerEdge(2L, genlayeraddisland2, GenLayerEdge.Mode.COOL_WARM);
         //genlayeredge = new GenLayerEdge(2L, genlayeredge, GenLayerEdge.Mode.HEAT_ICE);
         //genlayeredge = new GenLayerEdge(3L, genlayeredge, GenLayerEdge.Mode.SPECIAL);
-        GenLayer genlayeredge = genlayeraddisland2;
+        GenLayer genlayeredge = reduceBiomes;
         GenLayer genlayerzoom1 = new GenLayerZoom(2002L, genlayeredge);
         genlayerzoom1 = new GenLayerZoom(2003L, genlayerzoom1);
         GenLayer genlayeraddisland3 = new GenLayerAddIsland(4L, genlayerzoom1);

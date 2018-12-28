@@ -1,0 +1,13 @@
+tile.stygian.endlog.name=龙树原木
+tile.stygian.endplanks.name=龙树木板
+tile.stygian.endleaves.name=龙树树叶
+tile.stygian.endgrass.name=阴暗草
+tile.stygian.endcactus.name=山楂
+tile.stygian.endcanopysapling.name=龙树树苗
+tile.stygian.endtallgrass.name=阴暗高草
+tile.stygian.endobsidian.name=斑岩
+tile.stygian.endmagma.name=浸没石头
+tile.stygian.endvine.name=阴暗爬山虎
+tile.stygian.endglow.name=末地荧光草
+tile.stygian:endacid.name=阴暗酸液
+fluid.endacid=阴暗酸液

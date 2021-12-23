@@ -55,7 +55,7 @@ public class WorldGenEnderCanopy extends WorldGenAbstractTree
 		{
 			
 			IBlockState state = world.getBlockState(trunkBaseBlock);
-			if(state != END_GRASS && state != Blocks.END_STONE.getDefaultState() && state.getBlock() != ModBlocks.endCanopySapling && !state.getBlock().isReplaceable(world, pos) && !isReplaceable(world, trunkBaseBlock, state))
+			if(state != END_GRASS && state != Blocks.END_STONE.getDefaultState() && state.getBlock() != ModBlocks.endCanopySapling && !state.getBlock().isReplaceable(world, trunkBaseBlock) && !isReplaceable(world, trunkBaseBlock, state))
 			{
 				//System.out.println(state.getBlock().getLocalizedName() + " blocked tree from spawning");
 				//System.out.println(trunkBaseBlock);
